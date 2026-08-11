@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pair_id", "candidate_a_index", "candidate_b_index", "winner", "confidence",
+    "dimension_winners", "reason_codes", "evidence_a", "evidence_b", "reason"
+  ],
+  "properties": {
+    "pair_id": {"type": "string"},
+    "candidate_a_index": {"type": "integer"},
+    "candidate_b_index": {"type": "integer"},
+    "winner": {"enum": ["A", "B", "tie", "both_bad"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "dimension_winners": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_result", "instruction_compliance", "tool_evidence", "recovery_efficiency", "training_value"],
+      "properties": {
+        "task_result": {"enum": ["A", "B", "tie"]},
+        "instruction_compliance": {"enum": ["A", "B", "tie"]},
+        "tool_evidence": {"enum": ["A", "B", "tie"]},
+        "recovery_efficiency": {"enum": ["A", "B", "tie"]},
+        "training_value": {"enum": ["A", "B", "tie"]}
+      }
+    },
+    "reason_codes": {"type": "array", "items": {"type": "string"}},
+    "evidence_a": {"type": "array", "items": {"type": "integer"}},
+    "evidence_b": {"type": "array", "items": {"type": "integer"}},
+    "reason": {"type": "string"}
+  }
+}

@@ -1,0 +1,28 @@
+schema_document_version: "1.0"
+title: Immutable registry record
+description: 每个数据批次、特征运行或分析版本对应一个不可变登记记录。
+type: object
+required: [registry_schema_version, kind, record_id, registered_at, record, artifacts]
+properties:
+  registry_schema_version:
+    type: string
+  kind:
+    enum: [datasets, feature-runs, analysis-runs]
+  record_id:
+    type: string
+  registered_at:
+    type: string
+    format: date-time
+  record:
+    type: object
+    description: 对应批次或运行的完整登记字段；CSV 视图由此对象重建。
+  artifacts:
+    type: array
+    items:
+      type: object
+      required: [logical_path, size_bytes, sha256, hash_status]
+      properties:
+        logical_path: {type: string}
+        size_bytes: {type: [integer, "null"]}
+        sha256: {type: [string, "null"]}
+        hash_status: {enum: [deferred, computed]}

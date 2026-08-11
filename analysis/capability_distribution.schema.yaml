@@ -1,0 +1,18 @@
+schema_document_version: "1.0"
+file: {name: capability_distribution.csv, format: csv, record_unit: capability_node}
+description: 将能力树展开为一行一个节点，便于排序、统计和表格分析。
+columns:
+  capability_id: {type: string}
+  parent_id: {type: string, root_parent_value: capability_root}
+  level: {type: integer}
+  capability_path: {type: string, separator: " > ", description: 从根到当前节点的可读路径}
+  name: {type: string}
+  is_leaf: {type: boolean}
+  status: {type: string}
+  case_count: {type: integer, description: 当前节点及后代的唯一案例数}
+  trace_count: {type: integer, description: 当前节点及后代的唯一 Trace 数}
+  evidence_count: {type: integer}
+consistency_rules:
+  - 叶子节点 case_count 等于 capability_cases.jsonl 中对应 capability_id 的唯一 case_id 数。
+  - 叶子节点 trace_count 等于对应案例的唯一 trace_id 数。
+  - 父节点数量为所有后代案例去重后的聚合，不是简单相加。

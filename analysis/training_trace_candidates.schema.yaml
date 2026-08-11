@@ -1,0 +1,52 @@
+schema_document_version: "1.0"
+file: {name: training_trace_candidates.jsonl, format: jsonl, record_unit: trace_candidate_or_preference_pair}
+description: 训练与评测用途候选。单 Trace 记录和 preference_pair 记录具有不同结构。
+record:
+  type: object
+  discriminator: recommended_use
+  variants:
+    trace_candidate:
+      when: recommended_use in [positive_sft, repair_trace, evaluation_candidate, exclude]
+      fields:
+        taxonomy_version: {type: string}
+        trace_id: {type: string}
+        turn_ids: {type: array, items: {type: string}}
+        case_ids: {type: array, items: {type: string}}
+        capability_ids: {type: array, items: {type: string}}
+        recommended_use:
+          type: enum
+          values: [positive_sft, repair_trace, evaluation_candidate, exclude]
+        reasons: {type: array, items: {type: string}}
+        signals:
+          type: object
+          fields:
+            data_complete: {type: boolean}
+            completed: {type: boolean}
+            verified: {type: boolean}
+            positive_feedback: {type: boolean}
+            negative_feedback: {type: boolean}
+            medium_or_hard: {type: boolean}
+            hard: {type: boolean}
+            has_unmet_need: {type: boolean}
+            has_failure: {type: boolean}
+            behavior_quality: {type: string, values: [high, not_high, unavailable]}
+        coverage:
+          type: object
+          fields:
+            turn_count: {type: integer}
+            basic_feature_count: {type: integer}
+            outcome_label_count: {type: integer}
+            feedback_label_count: {type: integer}
+            difficulty_label_count: {type: integer}
+        limitations: {type: array, items: {type: string}}
+    preference_pair:
+      when: recommended_use == preference_pair
+      fields:
+        taxonomy_version: {type: string}
+        pair_id: {type: string}
+        recommended_use: {type: constant, value: preference_pair}
+        capability_ids: {type: array, items: {type: string}}
+        chosen_trace_id: {type: string}
+        rejected_trace_id: {type: string}
+        reasons: {type: array, items: {type: string}}
+        limitations: {type: array, items: {type: string}}

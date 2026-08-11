@@ -1,0 +1,44 @@
+schema_document_version: "1.0"
+file:
+  name: unified_traces.jsonl
+  format: jsonl
+  record_unit: trace
+  description: 每一行是一个完整 Trace，包含 Session、Turn、Event 和脱敏 raw。
+
+record:
+  type: object
+  fields:
+    schema_version: {type: string, required: true, example: v1.0}
+    batch_id: {type: string, required: true}
+    trace_id: {type: string, required: true, description: Trace 稳定唯一 ID}
+    sessions:
+      type: array
+      required: true
+      items:
+        type: object
+        fields:
+          session_id: {type: string, required: true, description: Harness 原生 Session ID}
+          harness: {type: string, required: true}
+          turns:
+            type: array
+            description: 当前 Session 的完整 Turn；结构与 unified_turns.jsonl 顶层记录一致。
+            items:
+              reference: unified_turns.schema.yaml#/record
+              difference: events 中包含 raw，而不是 raw_ref。
+          unassigned_events:
+            type: array
+            description: 无法可靠归入任何 Turn 的事件，不能丢弃。
+            items:
+              reference: unified_turns.schema.yaml#/record/fields/events/items
+
+embedded_event_difference:
+  raw:
+    type: any
+    description: 转换前的完整脱敏记录；结构取决于原始数据源。
+  raw_ref:
+    present: false
+    description: Trace 已内嵌 raw，因此不需要反向索引。
+
+relationships:
+  expanded_turn_view: {file: unified_turns.jsonl, keys: [trace_id, turn_id]}
+  event_identity: {keys: [trace_id, event_id]}

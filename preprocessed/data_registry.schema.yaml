@@ -1,0 +1,24 @@
+schema_document_version: "1.0"
+file: {name: data_registry.csv, format: csv, record_unit: preprocessing_batch}
+description: 每行登记一次预处理运行，历史行追加、不覆盖。
+columns:
+  batch_id: {type: string, description: 批次 ID；失败运行以 failed_ 开头}
+  source: {type: json_encoded_array, description: 输入文件或目录列表}
+  processed_at: {type: datetime, format: ISO-8601}
+  adapter: {type: string, description: 使用的 Adapter；多个时用加号连接}
+  raw_size_bytes: {type: integer}
+  output_size_bytes: {type: integer}
+  session_count: {type: integer}
+  event_count: {type: integer, description: Trace 中所有事件数，包含未归属事件}
+  model_distribution:
+    type: json_encoded_object
+    structure:
+      unit: {type: string, values: [model_call, turn_fallback, none]}
+      counts: {type: map, key_type: model_name, value_type: integer}
+  harness_distribution:
+    type: json_encoded_object
+    structure:
+      unit: {type: string, values: [session, none]}
+      counts: {type: map, key_type: harness_name, value_type: integer}
+  output_path: {type: string}
+  status: {type: enum, values: [success, partial, failed]}

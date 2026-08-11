@@ -1,0 +1,16 @@
+[providers.pjlab_proxy]
+api_type = "openai_compatible"
+base_url = "https://token.pjlab.org.cn/v1"
+api_key_env = "TRACE_ANALYSIS_API_KEY"
+default_model = "glm-5.2"
+allowed_models = [
+  "deepseek-v4-flash-0731",
+  "deepseek-v4-pro",
+  "glm-5.2-1m",
+  "glm-5.2",
+]
+timeout_seconds = 120
+max_retries = 4
+# The provider quota is 100 RPM shared by all models and keys for this user.
+# Keep 10% headroom for retries and other callers.
+requests_per_minute = 90

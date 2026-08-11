@@ -1,0 +1,56 @@
+schema_document_version: "1.0"
+file: {name: capability_taxonomy.json, format: json, record_unit: taxonomy_snapshot}
+description: 当前全部输入数据支持下的层级能力体系分析快照。
+record:
+  type: object
+  fields:
+    taxonomy_version: {type: string}
+    status: {type: string, current_standard_value: analysis_snapshot}
+    generated_at: {type: datetime, format: ISO-8601}
+    construction_method: {type: string}
+    base_taxonomy: {type: [string, "null"], description: 用于匹配的上一版 taxonomy 路径}
+    warning: {type: string, description: 当前快照的解释限制}
+    generated_by:
+      type: object
+      optional: true
+      description: 自动归纳能力树时使用的模型、Prompt 与完整性恢复信息。
+      fields:
+        method: {type: string}
+        provider: {type: string}
+        model: {type: string}
+        prompt_version: {type: string}
+        api_meta: {type: object}
+        deterministically_recovered_case_count:
+          type: integer
+          description: 模型少量遗漏时，被确定性恢复为 provisional 叶子的案例数。
+    root:
+      type: capability_node
+      description: 能力树根节点。
+
+types:
+  capability_node:
+    type: object
+    recursive: true
+    fields:
+      capability_id: {type: string}
+      parent_id: {type: [string, "null"], description: 根节点可为空；普通节点指向父能力}
+      level: {type: [integer, "null"], description: 根下第一层为 1}
+      name: {type: string}
+      path: {type: array, items: {type: string}, description: 从根到当前节点的名称路径}
+      is_leaf: {type: boolean, description: 是否为最末层能力}
+      status: {type: string, description: 当前分析匹配状态，不代表人工发布状态}
+      match_score: {type: [number, "null"], description: 与已有能力的文本/上下文相似度}
+      suggested_existing_capability_id: {type: [string, "null"]}
+      definition: {type: string}
+      inclusion_criteria: {type: array, items: {type: string}}
+      exclusion_criteria: {type: array, items: {type: string}}
+      case_count: {type: integer, description: 节点及其后代的唯一案例数}
+      trace_count: {type: integer, description: 节点及其后代的唯一 Trace 数}
+      evidence_count: {type: integer}
+      children:
+        type: array
+        items: {type: capability_node}
+
+relationships:
+  cases: {file: capability_cases.jsonl, key: capability_id}
+  distribution: {file: capability_distribution.csv, key: capability_id}

@@ -1,0 +1,61 @@
+schema_document_version: "1.0"
+file: {name: capability_cases.jsonl, format: jsonl, record_unit: capability_case}
+description: 一行是一个支持某项叶子能力的完整案例；保存全部案例，不是代表性抽样。
+record:
+  type: object
+  fields:
+    taxonomy_version: {type: string}
+    capability_id: {type: string, description: 所属叶子能力 ID}
+    case_id: {type: string, description: 源需求案例与叶子能力关系的稳定唯一 ID}
+    source_case_id: {type: string, description: 多标签映射前的源需求案例 ID}
+    trace_id: {type: string}
+    session_id: {type: string}
+    turn_ids: {type: array, items: {type: string}}
+    user_need: {type: string}
+    expected_outcome: {type: string}
+    constraints: {type: array, items: {type: string}}
+    fulfillment: {type: enum, values: [met, partially_met, unmet, unclear]}
+    unmet_need: {type: string, description: Agent 能力缺口；已满足时通常为空字符串}
+    requirement_origin:
+      type: enum
+      values: [direct_user_requirement, explicit_acceptance, behavioral_acceptance, partial_acceptance, modified]
+      description: 需求由用户直接提出，或由 Agent 提议后经用户接受形成。
+    negotiation_item_id: {type: [string, "null"], description: 协商需求对应的 Agent 计划项 ID}
+    negotiation_response_id: {type: [string, "null"], description: 用户接受、修改或部分接受计划的回应 ID}
+    assignment_support:
+      type: object
+      description: 当前源案例为什么可以支持该叶子能力。
+      fields:
+        support_type: {type: enum, values: [direct, necessary, negotiated]}
+        supporting_event_ids: {type: array, items: {type: string}}
+        entailment_audit: {type: constant, value: supported}
+    evidence:
+      type: array
+      description: 当前案例的全部必要证据。
+      items:
+        type: object
+        fields:
+          event_id: {type: string}
+          quote: {type: string}
+          evidence_type:
+            type: enum
+            values: [requirement, negotiation_proposal, requirement_acceptance, fulfillment, unspecified]
+    source_features:
+      type: array
+      description: 产生或支持该案例的全部特征运行。
+      items:
+        type: object
+        fields:
+          feature_run_id: {type: string}
+          feature_version: {type: string}
+          generated_by:
+            type: object
+            fields:
+              method: {type: string}
+              provider: {type: [string, "null"]}
+              model: {type: [string, "null"]}
+              prompt_version: {type: [string, "null"]}
+relationships:
+  taxonomy_node: {file: capability_taxonomy.json, key: capability_id}
+  source_turns: {file: preprocessed/<batch>/unified_turns.jsonl, keys: [trace_id, turn_ids]}
+  evidence_events: {file: preprocessed/<batch>/unified_traces.jsonl, keys: [trace_id, evidence.event_id]}

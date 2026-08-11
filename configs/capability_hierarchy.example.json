@@ -1,0 +1,28 @@
+{
+  "reviewer": "reviewer-name",
+  "reviewed_at": "2026-08-10T14:30:00+08:00",
+  "operations": [
+    {
+      "action": "create_parent",
+      "capability_id": "capgroup_quality_assurance",
+      "name": "质量保障",
+      "definition": "验证修改正确性并发现残留问题的能力集合",
+      "inclusion_criteria": ["测试执行", "错误诊断"],
+      "exclusion_criteria": ["与结果验证无关的普通代码编辑"],
+      "child_ids": ["cap_test_execution", "cap_error_diagnosis"],
+      "reason": "两个叶子能力共享质量验证目标，但仍可独立验证"
+    },
+    {
+      "action": "move",
+      "capability_id": "cap_regression_testing",
+      "parent_id": "capgroup_quality_assurance",
+      "reason": "回归测试属于质量保障下的细分能力"
+    },
+    {
+      "action": "rename",
+      "capability_id": "capgroup_quality_assurance",
+      "name": "修改验证与质量保障",
+      "reason": "新名称更清楚地限定该父节点的适用边界"
+    }
+  ]
+}

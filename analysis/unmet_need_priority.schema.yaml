@@ -1,0 +1,28 @@
+schema_document_version: "1.0"
+file: {name: unmet_need_priority.csv, format: csv, record_unit: capability_with_unmet_cases}
+description: 保留未满足需求的多个优先级维度，不压缩成不透明单一总分。
+columns:
+  taxonomy_version: {type: string}
+  capability_id: {type: string}
+  capability_path: {type: string}
+  total_case_count: {type: integer}
+  unmet_case_count: {type: integer}
+  unmet_trace_count: {type: integer}
+  unmet_rate: {type: [number, "null"], range: [0, 1]}
+  negative_feedback_count: {type: integer}
+  feedback_label_coverage: {type: [number, "null"], range: [0, 1]}
+  failed_count: {type: integer}
+  outcome_label_coverage: {type: [number, "null"], range: [0, 1]}
+  hard_count: {type: integer}
+  difficulty_label_coverage: {type: [number, "null"], range: [0, 1]}
+  model_coverage_count: {type: integer}
+  harness_coverage_count: {type: integer}
+  evidence_count: {type: integer}
+  gap_clarity_rate: {type: [number, "null"], range: [0, 1], description: 有明确 unmet_need 的案例比例}
+  evidence_case_coverage: {type: [number, "null"], range: [0, 1]}
+  source_coverage_count: {type: integer}
+  high_impact_count: {type: integer}
+  impact_label_coverage: {type: [number, "null"], range: [0, 1]}
+  priority_tier: {type: enum, values: [high, medium, insufficient_evidence]}
+  interpretation: {type: string}
+empty_output_note: 如果没有未满足案例，当前实现只写入最小表头；Schema仍列出有数据时的完整列。

@@ -1,0 +1,18 @@
+schema_document_version: "1.0"
+title: Artifact synchronization manifest
+description: 描述大型分析制品的逻辑路径、内容哈希及同步状态；文件本体不进入 Git。
+type: object
+required: [manifest_version, generated_at, artifacts]
+properties:
+  manifest_version: {type: string}
+  generated_at: {type: string, format: date-time}
+  artifacts:
+    type: array
+    items:
+      type: object
+      required: [logical_path, size_bytes, sha256]
+      properties:
+        logical_path: {type: string}
+        size_bytes: {type: integer}
+        sha256: {type: string}
+        source_record_id: {type: [string, "null"]}

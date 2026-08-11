@@ -1,0 +1,54 @@
+schema_document_version: "1.0"
+file: {pattern: basic_turn_features/run_<时间>_<哈希>/features.jsonl, format: jsonl, record_unit: turn_feature}
+description: 确定性代码从一个 Turn 提取的基础事实特征。
+record:
+  type: object
+  fields:
+    trace_id: {type: string}
+    session_id: {type: string}
+    turn_id: {type: string, description: 与 unified_turns.jsonl 关联}
+    feature_set: {type: constant, value: basic_turn_features}
+    feature_version: {type: string, current: v4}
+    feature_run_id: {type: string}
+    generated_by:
+      type: object
+      fields:
+        method: {type: constant, value: rule}
+        extractor: {type: string, current: basic_turn_features_v4}
+    values:
+      type: object
+      fields:
+        turn_status: {type: enum, values: [completed, aborted, interrupted, incomplete]}
+        harness: {type: string}
+        source_batch: {type: string}
+        user_input_length: {type: integer, unit: characters}
+        assistant_output_length: {type: integer, unit: characters}
+        reasoning_length: {type: integer, unit: characters}
+        model_call_count: {type: integer}
+        token_usage:
+          type: object
+          fields:
+            input_tokens: {type: integer}
+            output_tokens: {type: integer}
+            total_tokens: {type: integer}
+        duration_ms: {type: [integer, "null"], description: 最后与最早有效时间戳之差}
+        first_response_ms: {type: [integer, "null"], description: 首个用户事件到首个 Agent 执行事件的时间}
+        agent_models: {type: array, items: {type: string}}
+        tool_usage:
+          type: map
+          key: tool_name
+          value:
+            type: object
+            fields:
+              call_count: {type: integer, description: 按call_id去重后的逻辑调用次数；缺少call_id时按事件计数}
+              result_count: {type: integer, description: 按call_id去重后的逻辑返回次数；缺少call_id时按事件计数}
+              argument_length: {type: integer, unit: characters}
+              result_length: {type: integer, unit: characters}
+        tool_pairing:
+          type: object
+          fields:
+            matched_count: {type: integer, description: 成功通过 call_id 配对的唯一调用数}
+            unmatched_call_ids: {type: array, items: {type: string}}
+            unmatched_result_call_ids: {type: array, items: {type: string}}
+relationships:
+  input_turn: {file: preprocessed/<batch>/unified_turns.jsonl, key: turn_id}

@@ -1,0 +1,127 @@
+schema_document_version: "1.0"
+file: {pattern: <feature_set>/run_<时间>_<哈希>/features.jsonl, format: jsonl, record_unit: turn_feature}
+description: 通过统一模型 API 生成的逐 Turn 语义标签；不同 feature_set 和运行版本分别保存。
+common_record:
+  type: object
+  fields:
+    trace_id: {type: string}
+    session_id: {type: string}
+    turn_id: {type: string}
+    feature_set: {type: string, description: 决定 values 使用下面哪个 variant}
+    feature_version: {type: string}
+    feature_run_id: {type: string}
+    generated_by:
+      type: object
+      fields:
+        method: {type: constant, value: llm}
+        provider: {type: string}
+        model: {type: string}
+        prompt_version: {type: string}
+    values:
+      type: object
+      variants:
+        user_feedback:
+          fields:
+            sentiment: {type: enum, values: [positive, negative, mixed, none, unclear]}
+            explicit: {type: boolean}
+            user_correction: {type: boolean}
+            complaints: {type: array, items: {type: string}}
+            evidence: {reference: "#/shared/evidence_array"}
+        task_outcome:
+          fields:
+            outcome: {type: enum, values: [completed, partially_completed, failed, unclear]}
+            verified: {type: [boolean, string], string_value: unclear}
+            unmet_parts: {type: array, items: {type: string}}
+            evidence: {reference: "#/shared/evidence_array"}
+        difficulty:
+          fields:
+            intrinsic_difficulty: {type: enum, values: [easy, medium, hard, unclear]}
+            observed_difficulty: {type: enum, values: [low, medium, high, unclear]}
+            factors: {type: array, items: {type: string}}
+            evidence: {reference: "#/shared/evidence_array"}
+        behavior_quality:
+          fields:
+            quality: {type: enum, values: [exemplary, good, mixed, poor, unclear]}
+            strengths: {type: array, items: {type: string}}
+            weaknesses: {type: array, items: {type: string}}
+            evidence: {reference: "#/shared/evidence_array"}
+        impact:
+          fields:
+            severity: {type: enum, values: [low, medium, high, critical, unclear]}
+            affected_goal: {type: string}
+            evidence: {reference: "#/shared/evidence_array"}
+        ml_llm_coding_scope:
+          fields:
+            scope: {type: enum, values: [included, excluded, uncertain]}
+            reason: {type: string, description: 判断是否属于科研 ML/LLM Coding 的理由}
+            confidence: {type: number, minimum: 0, maximum: 1}
+            evidence: {reference: "#/shared/evidence_array"}
+        demand_capability_instances:
+          fields:
+            user_goal: {type: string}
+            instances:
+              type: array
+              items:
+                type: object
+                fields:
+                  instance_id: {type: string, description: 原子需求/能力实例稳定 ID}
+                  need: {type: string, description: 用户需要什么}
+                  object: {type: string, description: 需求作用对象}
+                  expected_outcome: {type: string}
+                  constraints: {type: array, items: {type: string}}
+                  requirement_source: {type: enum, values: [explicit_user, implicit_necessary]}
+                  fulfillment: {type: enum, values: [met, partially_met, unmet, unclear]}
+                  agent_gap: {type: string, description: 未满足时具体缺少什么}
+                  candidate_capability: {type: string, description: 开放式抽取的原子能力名称}
+                  requirement_evidence: {reference: "#/shared/evidence_array"}
+                  fulfillment_evidence: {reference: "#/shared/evidence_array"}
+        requirement_negotiation:
+          description: 当前 Turn 的目标与 Agent 计划，以及下一 Turn 用户对计划的接受、修改或拒绝关系。
+          fields:
+            user_goals:
+              type: array
+              items:
+                type: object
+                fields:
+                  description: {type: string}
+                  evidence: {reference: "#/shared/evidence_array", description: 必须来自当前 Turn 的 user_message}
+            plan_items:
+              type: array
+              items:
+                type: object
+                fields:
+                  local_id: {type: string, description: 单次模型输出内的临时引用 ID}
+                  item_id: {type: string, description: 写出时生成的稳定计划项 ID}
+                  description: {type: string}
+                  proposal_evidence: {reference: "#/shared/evidence_array", description: 必须来自当前 Turn 的 assistant_message}
+            responses:
+              type: array
+              items:
+                type: object
+                fields:
+                  response_id: {type: string}
+                  response_type:
+                    type: enum
+                    values: [explicit_acceptance, behavioral_acceptance, partial_acceptance, modified, rejected, not_confirmed]
+                  accepted_item_ids: {type: array, items: {type: string}, description: 写出后引用稳定 item_id}
+                  rejected_item_ids: {type: array, items: {type: string}, description: 写出后引用稳定 item_id}
+                  response_evidence: {reference: "#/shared/evidence_array", description: 必须来自下一 Turn 的 user_message}
+                  reason: {type: string}
+    api_meta:
+      type: object
+      fields:
+        cache_hit: {type: boolean}
+        cache_key: {type: [string, "null"]}
+        usage: {type: [object, "null"], description: Provider 返回的 Token 用量}
+shared:
+  evidence_array:
+    type: array
+    items:
+      type: object
+      fields:
+        event_id: {type: string, description: 通常属于当前 Turn；requirement_negotiation 的回应证据属于下一 Turn}
+        quote: {type: string, description: 支撑标签的原文摘录}
+relationships:
+  input_turn: {file: preprocessed/<batch>/unified_turns.jsonl, key: turn_id}
+  evidence_event: {file: preprocessed/<batch>/unified_traces.jsonl, keys: [trace_id, event_id]}
+  negotiation_follow_up: {file: preprocessed/<batch>/unified_turns.jsonl, description: requirement_negotiation 可引用下一 Turn 的 user_message}

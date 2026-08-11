@@ -1,0 +1,539 @@
+schema_version: "1.0.0"
+schema_name: "mlcoding_agent_trace_quality"
+title: "MLCoding Agent Trace 训练数据质量评估规范"
+language: "zh-CN"
+
+scope:
+  input_format: "Agent SFT delivery JSONL"
+  input_unit: "one JSON object per line"
+  primary_evaluation_unit: "trace"
+  final_selection_unit: "sample"
+  purpose:
+    - "判断样本是否具备进入 SFT 训练集的资格"
+    - "评估 Agent 行为质量"
+    - "评估样本的训练价值"
+    - "为自动筛选和人工复核提供可审计证据"
+
+terminology:
+  message:
+    definition: "messages 数组中的一条 system、user、assistant 或 tool 消息"
+    selectable: false
+  tool_call:
+    definition: "assistant.tool_calls 中的一次工具调用，以及与其 ID 对应的 tool response"
+    selectable: false
+  turn:
+    definition: "从一条真实 user 请求开始，到下一条真实 user 请求之前的所有 assistant/tool 消息"
+    selectable: false
+    purpose: "局部行为评分和错误定位"
+  trace:
+    definition: "围绕一个任务形成的完整 user、assistant、tool 交互轨迹"
+    selectable: true
+    note: "当前数据默认一行 JSONL 对应一条 trace；发现多个独立任务时进入人工复核"
+  session:
+    definition: "源系统记录的会话边界，由 metadata.source_session_id 追踪"
+    selectable: false
+    note: "session 不自动等于独立任务，不能直接作为训练筛选单位"
+  sample:
+    definition: "交付 JSONL 中的一条顶层 JSON 对象"
+    selectable: true
+    relation: "默认 sample = trace；最终 keep/review/reject 作用于 sample"
+  dataset:
+    definition: "全部候选 sample 的集合"
+    selectable: false
+    purpose: "去重、覆盖度、难度与任务分布控制"
+
+design_principles:
+  - id: "P1"
+    rule: "结构合规、行为质量和训练价值分开评价"
+  - id: "P2"
+    rule: "硬门槛不参与加权；命中时直接 reject 或 review"
+  - id: "P3"
+    rule: "最终成功优先使用执行状态、测试和工具结果验证，不能只相信最终回答"
+  - id: "P4"
+    rule: "工具报错本身不是淘汰条件，必须结合归因、恢复和最终结果判断"
+  - id: "P5"
+    rule: "长度和调用次数只作为风险信号，不直接等价于冗余或低质量"
+  - id: "P6"
+    rule: "所有非规则评分必须提供可定位证据和置信度"
+  - id: "P7"
+    rule: "转换过程引入的问题不得错误归因于生成轨迹的模型"
+  - id: "P8"
+    rule: "质量分与训练价值分分别保存，不合并成不可解释的单一分数"
+
+source_profiles:
+  legacy_api_logs:
+    detector:
+      reasoning_content_expected: false
+      signature_location: "assistant.signature"
+      inferred_tool_schema: false
+    scoring_adjustments:
+      - rubric_id: "Q7_REASONING_DECISION_QUALITY"
+        applicability: "not_applicable"
+        reason: "源数据没有 reasoning_content，不能据此评价显式推理文本"
+  session_events:
+    detector:
+      reasoning_content_expected: true
+      signature_location: "assistant.meta.signatures"
+      inferred_tool_schema: true
+    scoring_adjustments:
+      - field: "tools[].function.description"
+        applicability: "do_not_score"
+        reason: "工具定义由观察到的调用推断，不代表模型当时看到的完整工具描述"
+      - field: "metadata.mixed_model_session"
+        when: true
+        action: "review"
+        reason: "混合真实模型轨迹需要确认模型归属和训练用途"
+
+evaluation_pipeline:
+  - stage: 1
+    id: "NORMALIZE"
+    unit: "sample"
+    output: "normalized trace index and message/tool-call identifiers"
+  - stage: 2
+    id: "HARD_GATES"
+    unit: "sample"
+    output: "eligible, review, or reject with gate evidence"
+  - stage: 3
+    id: "LOCAL_EVIDENCE"
+    unit: "turn/tool_call"
+    output: "localized evidence and local rubric observations"
+  - stage: 4
+    id: "QUALITY_SCORING"
+    unit: "trace"
+    output: "quality_score from 0 to 100"
+  - stage: 5
+    id: "TRAINING_VALUE_SCORING"
+    unit: "trace"
+    output: "training_value_score from 0 to 100"
+  - stage: 6
+    id: "DATASET_SELECTION"
+    unit: "dataset"
+    output: "deduplicated and distribution-controlled training subset"
+
+hard_gates:
+  outcomes:
+    pass: "继续进入质量评分"
+    review: "不自动进入训练集，等待人工或更强验证器复核"
+    reject: "不进入 SFT 训练集"
+  rules:
+    - id: "G01_INVALID_JSON_OR_REQUIRED_FIELDS"
+      category: "structural"
+      default_outcome: "reject"
+      condition: "JSON 无法解析或缺少交付规范必填字段"
+      automation: "deterministic"
+    - id: "G02_INVALID_ROLE_OR_MESSAGE_ORDER"
+      category: "structural"
+      default_outcome: "reject"
+      condition: "消息角色非法或顺序无法形成有效对话"
+      automation: "deterministic"
+    - id: "G03_TOOL_CALL_NOT_CLOSED"
+      category: "structural"
+      default_outcome: "reject"
+      condition: "tool_call ID 缺少对应 tool response，或出现孤立 tool response"
+      automation: "deterministic"
+    - id: "G04_MISSING_OR_TRUNCATED_FINAL_RESPONSE"
+      category: "structural"
+      default_outcome: "reject"
+      condition: "最终 assistant 回答缺失、为空或明显截断"
+      automation: "rules_plus_judge"
+    - id: "G05_FALSE_SUCCESS_CLAIM"
+      category: "outcome"
+      default_outcome: "reject"
+      condition: "最终回答声称成功，但测试、工具结果或最终状态明确显示失败"
+      automation: "verifier_plus_judge"
+    - id: "G06_UNRECOVERED_CRITICAL_FAILURE"
+      category: "outcome"
+      default_outcome: "reject"
+      condition: "关键操作失败且轨迹结束前没有有效恢复"
+      automation: "rules_plus_judge"
+    - id: "G07_RESULT_NOT_VERIFIABLE"
+      category: "outcome"
+      default_outcome: "review"
+      condition: "任务声称完成，但没有测试、最终状态、diff 或充分工具证据"
+      automation: "judge"
+    - id: "G08_HARMFUL_SIDE_EFFECT"
+      category: "safety"
+      default_outcome: "reject"
+      condition: "产生与任务无关的破坏性修改、数据损失、安全问题或不可接受副作用"
+      automation: "verifier_plus_judge"
+    - id: "G09_FABRICATED_OBSERVATION"
+      category: "faithfulness"
+      default_outcome: "reject"
+      condition: "模型伪造工具结果、文件状态、测试结果或其他外部事实"
+      automation: "judge"
+    - id: "G10_ANSWER_OR_TEST_LEAKAGE"
+      category: "contamination"
+      default_outcome: "reject"
+      condition: "通过直接复制泄露答案、读取不允许的参考补丁或篡改验证条件完成任务"
+      automation: "rules_plus_judge"
+    - id: "G11_MULTIPLE_INDEPENDENT_TASKS"
+      category: "boundary"
+      default_outcome: "review"
+      condition: "一条 sample 中包含多个可独立训练、上下文关联较弱的任务"
+      automation: "judge"
+    - id: "G12_MIXED_REAL_MODELS"
+      category: "provenance"
+      default_outcome: "review"
+      condition: "metadata.mixed_model_session 为 true 或检测到多个真实模型"
+      automation: "deterministic"
+    - id: "G13_SENSITIVE_OR_DISALLOWED_CONTENT"
+      category: "safety"
+      default_outcome: "review"
+      condition: "包含需要脱敏、授权确认或安全复核的内容"
+      automation: "classifier_plus_review"
+
+scoring_scale:
+  type: "integer"
+  minimum: 0
+  maximum: 4
+  anchors:
+    0: "严重错误，或形成明显负面训练信号"
+    1: "大部分错误，核心目标基本未完成"
+    2: "部分正确，但存在实质性缺陷"
+    3: "基本正确，仅有轻微缺陷"
+    4: "完整、正确、清晰，具有良好示范性"
+  not_applicable: "NA"
+
+quality_rubrics:
+  score_name: "quality_score"
+  score_range: [0, 100]
+  primary_unit: "trace"
+  dimensions:
+    - id: "Q1_TASK_COMPLETION_CORRECTNESS"
+      name: "任务完成与结果正确性"
+      weight: 30
+      local_units: ["turn", "tool_call"]
+      evidence_priority:
+        - "可复现的最终环境或文件状态"
+        - "原始测试和针对性测试结果"
+        - "工具返回结果和代码 diff"
+        - "最终回答"
+      anchors:
+        0: "任务失败却声称成功，或结果造成明显破坏"
+        1: "核心任务失败，仅完成极少部分"
+        2: "部分完成，或关键结果缺少充分验证"
+        3: "核心任务完成，存在轻微遗漏或验证不够全面"
+        4: "目标与约束全部完成，并有可靠执行证据"
+    - id: "Q2_INSTRUCTION_CONSTRAINT_COMPLIANCE"
+      name: "用户指令与约束遵循"
+      weight: 15
+      local_units: ["turn"]
+      anchors:
+        0: "违反关键约束或执行了明确禁止的操作"
+        1: "遗漏多数关键要求"
+        2: "满足部分要求，但存在重要遗漏"
+        3: "满足核心要求，仅有轻微偏差"
+        4: "完整遵循显式要求和合理隐含约束"
+    - id: "Q3_TOOL_ACTION_CORRECTNESS"
+      name: "工具与动作选择正确性"
+      weight: 15
+      local_units: ["tool_call"]
+      anchors:
+        0: "工具或动作与目标明显冲突，并造成错误结果"
+        1: "多数工具选择或参数错误"
+        2: "存在多次实质性错误，但部分动作有效"
+        3: "整体选择正确，仅有少量可恢复错误"
+        4: "工具、参数、顺序和作用范围均合理准确"
+    - id: "Q4_EVIDENCE_GROUNDING"
+      name: "工具结果利用与证据一致性"
+      weight: 10
+      local_units: ["turn", "tool_call"]
+      anchors:
+        0: "曲解、忽略或伪造关键工具结果"
+        1: "多次错误使用证据，结论不可靠"
+        2: "使用部分证据，但遗漏或误读关键结果"
+        3: "基本正确使用工具结果支撑决策和结论"
+        4: "完整、准确地吸收证据，并处理冲突或不确定性"
+    - id: "Q5_ERROR_RECOVERY"
+      name: "错误识别与恢复"
+      weight: 10
+      local_units: ["turn", "tool_call"]
+      applicability: "仅当轨迹存在真实错误、失败或阻塞时评分，否则为 NA"
+      anchors:
+        0: "忽略错误、重复同类错误，或失败后虚假声称成功"
+        1: "识别错误但诊断或修复方向明显错误"
+        2: "经过多次无效尝试后部分恢复"
+        3: "合理诊断并成功恢复，存在少量低效步骤"
+        4: "快速定位根因，以最小范围修复并验证恢复结果"
+    - id: "Q6_EFFICIENCY_NON_REDUNDANCY"
+      name: "过程效率与非冗余性"
+      weight: 10
+      local_units: ["turn", "tool_call"]
+      note: "不得仅依据消息数、token 或工具调用次数评分"
+      anchors:
+        0: "大量无贡献步骤，且严重干扰或破坏任务完成"
+        1: "重复探索和无效调用占据主要过程"
+        2: "存在明显冗余，但仍能推进并完成部分目标"
+        3: "总体高效，仅有少量可避免步骤"
+        4: "每个关键步骤都有明确贡献，停止时机合理"
+    - id: "Q7_REASONING_DECISION_QUALITY"
+      name: "推理连贯性与决策质量"
+      weight: 5
+      local_units: ["turn"]
+      applicability: "仅对具有真实 reasoning_content 的样本评分"
+      note: "评价推理是否支持动作决策，不以篇幅或文风为主要依据"
+      anchors:
+        0: "推理与观察或动作冲突，并直接导致错误"
+        1: "推理大多无关、循环或基于错误事实"
+        2: "部分合理，但关键决策缺少依据或存在跳跃"
+        3: "推理基本连贯，能够支持主要动作选择"
+        4: "推理简洁、证据充分，并能持续更新计划"
+    - id: "Q8_FINAL_RESPONSE_QUALITY"
+      name: "最终回答质量"
+      weight: 5
+      local_units: ["message"]
+      anchors:
+        0: "最终回答错误、误导或与实际结果矛盾"
+        1: "没有清楚说明结果，且包含重大错误"
+        2: "部分正确，但遗漏关键结果、限制或失败信息"
+        3: "准确总结主要结果，仅有轻微表达或完整性问题"
+        4: "准确、清晰、简洁，并如实说明验证结果和限制"
+
+training_value_rubrics:
+  score_name: "training_value_score"
+  score_range: [0, 100]
+  primary_unit: "trace"
+  dimensions:
+    - id: "V1_TASK_COMPLEXITY"
+      name: "任务复杂度与非平凡性"
+      weight: 25
+      guidance: "评价跨文件理解、根因定位、组合工具、约束处理和验证需求，不按长度直接评分"
+    - id: "V2_LEARNABLE_AGENT_BEHAVIOR"
+      name: "推理与工具行为的可学习性"
+      weight: 25
+      guidance: "轨迹应展示可模仿、可迁移的计划—执行—观察—修正模式"
+    - id: "V3_TARGET_CAPABILITY_RELEVANCE"
+      name: "与目标训练能力的相关性"
+      weight: 20
+      guidance: "根据目标模型需要学习的 coding agent 能力单独配置"
+    - id: "V4_SKILL_TOOL_RARITY"
+      name: "技能或工具组合稀缺度"
+      weight: 15
+      guidance: "在合格样本中保留稀缺但重要的任务与工具组合"
+    - id: "V5_INFORMATION_DENSITY"
+      name: "信息密度"
+      weight: 10
+      guidance: "有效决策和证据相对总轨迹长度的比例"
+    - id: "V6_NOVELTY"
+      name: "数据新颖性"
+      weight: 5
+      guidance: "结合精确去重、近似去重和任务语义聚类判断"
+
+score_aggregation:
+  dimension_formula: "dimension_score_0_to_100 = raw_score_0_to_4 / 4 * 100"
+  weighted_formula: "total = sum(dimension_score * applicable_weight) / sum(applicable_weight)"
+  rounding: 2
+  na_policy:
+    rule: "NA 维度不计入分子或分母，其权重按剩余适用维度重新归一化"
+    forbidden:
+      - "把 NA 当作 0 分"
+      - "把 NA 自动当作 4 分"
+  confidence:
+    range: [0.0, 1.0]
+    independent_from_quality: true
+    rule: "证据不足应降低 confidence，而不是凭猜测降低或提高质量分"
+
+decision_policy:
+  precedence:
+    - "任一 reject 硬门槛"
+    - "任一 review 硬门槛"
+    - "质量分阈值"
+    - "训练价值阈值"
+    - "数据集去重与配比"
+  thresholds:
+    high_quality:
+      quality_score_min: 85
+      training_value_score_min: 50
+      hard_gate_status: "pass"
+    usable:
+      quality_score_min: 70
+      quality_score_max_exclusive: 85
+      training_value_score_min: 50
+      hard_gate_status: "pass"
+    review:
+      conditions_any:
+        - "hard_gate_status == review"
+        - "55 <= quality_score < 70"
+        - "judge_confidence < 0.70"
+        - "independent_judge_disagreement >= 2 raw-score points on any dimension"
+    reject:
+      conditions_any:
+        - "hard_gate_status == reject"
+        - "quality_score < 55"
+  dataset_selection:
+    rule: "从 high_quality 和 usable 中去重并按任务、难度、工具、模型和长度分层选择"
+    forbid: "禁止仅按 total score 降序截取前 N 条"
+
+evidence_schema:
+  required_fields:
+    - "evidence_id"
+    - "unit"
+    - "message_indices"
+    - "claim"
+    - "observation"
+  fields:
+    evidence_id:
+      type: "string"
+    unit:
+      enum: ["message", "tool_call", "turn", "trace", "external_verifier"]
+    message_indices:
+      type: "array[integer]"
+      description: "messages 数组中的零基索引；外部证据可以为空"
+    tool_call_ids:
+      type: "array[string]"
+      default: []
+    claim:
+      type: "string"
+      description: "该证据支持或反驳的判断"
+    observation:
+      type: "string"
+      description: "对证据的简短复述；避免无必要复制敏感正文"
+    source:
+      enum: ["trace", "test", "environment_state", "diff", "rule", "human"]
+    polarity:
+      enum: ["supports", "contradicts", "uncertain"]
+
+judge_protocol:
+  minimum_judges: 2
+  independent_scoring: true
+  judge_inputs:
+    - "完整 user 请求与约束"
+    - "按原顺序排列的 assistant/tool 轨迹"
+    - "工具定义及其来源标记"
+    - "可用的测试、diff 和最终状态证据"
+    - "本 schema 中当前 Rubric 的定义和锚点"
+  judge_outputs:
+    - "raw_score"
+    - "applicability"
+    - "evidence_ids"
+    - "reason"
+    - "confidence"
+  long_trace_policy:
+    segment_unit: "turn"
+    rule: "可分段提取局部证据，但最终 Rubric 分数和决策必须基于完整 trace 汇总"
+    forbidden: "禁止把各分段得分简单平均后当作 trace 结论"
+  disagreement_policy:
+    raw_score_gap_for_review: 2
+    critical_disagreement:
+      - "任务是否成功"
+      - "是否虚假声称成功"
+      - "是否存在副作用"
+      - "是否伪造观察"
+    action: "human_review"
+  calibration:
+    initial_human_sample_min: 50
+    sampling_dimensions:
+      - "模型"
+      - "单轮/多轮"
+      - "短/中/超长"
+      - "有错误/无错误"
+      - "明显成功/明显失败/边界样本"
+      - "混合模型"
+    required_metrics:
+      - "hard-gate precision and recall"
+      - "weighted Cohen kappa or Krippendorff alpha"
+      - "dimension-level exact and adjacent agreement"
+      - "keep/review/reject confusion matrix"
+
+dataset_level_metrics:
+  - id: "D1_EXACT_DUPLICATE_RATE"
+    unit: "dataset"
+  - id: "D2_SEMANTIC_DUPLICATE_RATE"
+    unit: "dataset"
+  - id: "D3_TASK_TYPE_DISTRIBUTION"
+    unit: "dataset"
+  - id: "D4_TOOL_COVERAGE"
+    unit: "dataset"
+  - id: "D5_DIFFICULTY_DISTRIBUTION"
+    unit: "dataset"
+  - id: "D6_TRACE_LENGTH_DISTRIBUTION"
+    unit: "dataset"
+  - id: "D7_MODEL_PROVENANCE_DISTRIBUTION"
+    unit: "dataset"
+  - id: "D8_ERROR_RECOVERY_PATTERN_DISTRIBUTION"
+    unit: "dataset"
+
+result_record_schema:
+  type: "object"
+  required:
+    - "quality_schema_version"
+    - "sample_id"
+    - "source_session_id"
+    - "source_file"
+    - "hard_gate_status"
+    - "hard_gate_results"
+    - "quality_rubric_results"
+    - "training_value_rubric_results"
+    - "quality_score"
+    - "training_value_score"
+    - "judge_confidence"
+    - "decision"
+    - "evidence"
+  properties:
+    quality_schema_version:
+      type: "string"
+      const: "1.0.0"
+    sample_id:
+      type: "string"
+    source_session_id:
+      type: ["string", "null"]
+    source_file:
+      type: "string"
+    source_profile:
+      enum: ["legacy_api_logs", "session_events", "unknown"]
+    model_names:
+      type: "array[string]"
+    trace_stats:
+      type: "object"
+      properties:
+        message_count: {type: "integer"}
+        user_turn_count: {type: "integer"}
+        assistant_count: {type: "integer"}
+        tool_call_count: {type: "integer"}
+        tool_error_count: {type: "integer"}
+    hard_gate_status:
+      enum: ["pass", "review", "reject"]
+    hard_gate_results:
+      type: "array"
+      items:
+        required: ["gate_id", "triggered", "outcome", "evidence_ids"]
+    quality_rubric_results:
+      type: "array"
+      items:
+        required: ["rubric_id", "applicability", "raw_score", "weighted_score", "evidence_ids", "reason", "confidence"]
+    training_value_rubric_results:
+      type: "array"
+      items:
+        required: ["rubric_id", "applicability", "raw_score", "weighted_score", "evidence_ids", "reason", "confidence"]
+    quality_score:
+      type: ["number", "null"]
+      minimum: 0
+      maximum: 100
+    training_value_score:
+      type: ["number", "null"]
+      minimum: 0
+      maximum: 100
+    judge_confidence:
+      type: "number"
+      minimum: 0
+      maximum: 1
+    decision:
+      enum: ["high_quality", "usable", "review", "reject"]
+    decision_reasons:
+      type: "array[string]"
+    evidence:
+      type: "array"
+      items: "evidence_schema"
+    judge_runs:
+      type: "array"
+      description: "保存独立 judge 的模型、prompt 版本、时间和分项结果"
+    human_review:
+      type: ["object", "null"]
+
+output_files:
+  scored_samples: "quality_scores.jsonl"
+  selected_samples: "selected_samples.jsonl"
+  review_queue: "review_queue.jsonl"
+  rejected_samples: "rejected_samples.jsonl"
+  dataset_report: "quality_report.json"
+  rule_version_copy: "schema.yaml"

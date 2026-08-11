@@ -1,0 +1,9 @@
+[artifacts]
+remote = "renwanying.renwanying-p+root.ailab-llmagent.ws@h.pjlab.org.cn:/mnt/shared-storage-user/songdemin/user/renwanying/trace_analysis_artifacts"
+roots = [
+  "raw_data",
+  "preprocessed",
+  "features",
+  "analysis",
+  ".cache/llm",
+]

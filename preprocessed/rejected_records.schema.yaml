@@ -1,0 +1,10 @@
+schema_document_version: "1.0"
+file: {name: rejected_records.jsonl, format: jsonl, record_unit: rejected_input_record}
+description: 无法解析或转换的输入记录；空文件表示没有拒绝项。
+record:
+  type: object
+  fields:
+    source_file: {type: string, required: true}
+    record_index: {type: integer, required: true, description: 原始文件中的零基序号}
+    reason: {type: string, required: true, description: 异常类型和原因}
+    raw_text: {type: string, required: true, description: 截断至最多 10000 字符的脱敏原始文本}

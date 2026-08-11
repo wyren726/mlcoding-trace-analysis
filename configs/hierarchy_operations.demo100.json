@@ -1,0 +1,22 @@
+{
+  "reviewer": "human_confirmed_via_codex",
+  "reviewed_at": "2026-08-10T14:55:00+08:00",
+  "operations": [
+    {
+      "action": "create_parent",
+      "capability_id": "capgroup_research_plan_optimization",
+      "name": "研究规划与方案优化",
+      "definition": "围绕研究计划的可行性、整体优化和范围取舍形成决策支持",
+      "child_ids": ["cap_560454fce4b0b0ad3997a373", "cap_085f4c07ef943bfeffe1aae6", "cap_5ca618dc14103055b06eac19"],
+      "reason": "三个叶子能力共享研究计划决策目标，但分别对应评估、综合优化和范围取舍"
+    },
+    {
+      "action": "create_parent",
+      "capability_id": "capgroup_research_execution_planning",
+      "name": "研究执行规划",
+      "definition": "围绕研究执行阶段的时间、样本和风险安排形成可落地计划",
+      "child_ids": ["cap_e13b07d221188fdae33947d2", "cap_f25b0763a09dc32d6446e970", "cap_16784fd6250cd0251c9e5af8", "cap_bdcfb98f6c1dffca1364dd99"],
+      "reason": "四个叶子能力共同服务于研究执行资源和风险规划"
+    }
+  ]
+}

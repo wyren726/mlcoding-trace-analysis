@@ -1,0 +1,125 @@
+schema_document_version: "1.0"
+file:
+  name: unified_turns.jsonl
+  format: jsonl
+  record_unit: turn
+  description: 每一行是一个完整 Turn，适合逐 Turn 提取特征和打标签。
+
+record:
+  type: object
+  fields:
+    schema_version: {type: string, required: true, description: 统一 Turn 格式版本, example: v1.0}
+    batch_id: {type: string, required: true, description: 所属预处理批次 ID}
+    trace_id: {type: string, required: true, description: 所属完整 Trace ID}
+    session_id: {type: string, required: true, description: Harness 原生会话 ID}
+    turn_id: {type: string, required: true, description: Turn 稳定唯一 ID}
+    turn_index: {type: integer, required: true, description: Turn 在 Session 中的顺序，从 1 开始}
+    status:
+      type: enum
+      required: true
+      values: [completed, aborted, interrupted, incomplete]
+      description: 日志结构状态，不评价 Agent 表现。
+    harness: {type: string, required: true, description: Agent Harness；无法识别时为 unknown}
+    agent_models:
+      type: array
+      items: {type: string}
+      description: 当前 Turn 中观察到的 Agent 模型名称。
+    events:
+      type: array
+      required: true
+      order_by: sequence
+      description: Turn 内唯一、严格有序的事件流。
+      items:
+        type: object
+        fields:
+          schema_version: {type: string, required: true}
+          batch_id: {type: string, required: true}
+          event_id: {type: string, required: true, description: 事件稳定唯一 ID}
+          session_id: {type: string, required: true}
+          trace_id: {type: string, required: true}
+          turn_id: {type: string, required: true}
+          sequence: {type: integer, required: true, description: Session 范围内的事件顺序}
+          timestamp: {type: [string, "null"], description: 来源日志时间，通常为 ISO 8601}
+          type:
+            type: enum
+            values: [user_message, assistant_message, reasoning, model_call, model_result,
+                     tool_call, tool_result, token_usage, error, system_event, unknown]
+          data:
+            type: object
+            description: 结构由同一事件的 type 决定。
+            variants:
+              user_message:
+                fields:
+                  content: {type: string, description: 用户输入}
+              assistant_message:
+                fields:
+                  content: {type: string, description: Agent 向用户展示的回复}
+              reasoning:
+                fields:
+                  content: {type: string, description: Agent 推理内容}
+              model_call:
+                fields:
+                  request_id: {type: [string, "null"]}
+                  model: {type: [string, "null"]}
+                  provider: {type: [string, "null"]}
+              model_result:
+                fields:
+                  request_id: {type: [string, "null"]}
+                  model: {type: [string, "null"]}
+                  status_code: {type: [integer, "null"]}
+              tool_call:
+                fields:
+                  call_id: {type: [string, "null"], description: 与 tool_result.data.call_id 配对}
+                  tool_name: {type: [string, "null"]}
+                  arguments: {type: any, description: 不同工具具有不同参数结构}
+              tool_result:
+                fields:
+                  call_id: {type: [string, "null"], description: 与 tool_call.data.call_id 配对}
+                  content: {type: any, description: 可能是字符串、对象或内容块数组}
+                  is_error: {type: [boolean, "null"]}
+              token_usage:
+                fields:
+                  input_tokens: {type: [integer, "null"]}
+                  output_tokens: {type: [integer, "null"]}
+                  total_tokens: {type: [integer, "null"]}
+                note: 来源也可能使用 prompt_tokens 和 completion_tokens，原始名称保留在 Trace raw 中。
+              error:
+                fields:
+                  error: {type: any}
+                  status_code: {type: [integer, "null"]}
+              system_event:
+                fields:
+                  kind: {type: [string, "null"]}
+                  content: {type: [string, "null"]}
+                  files:
+                    type: array
+                    optional: true
+                    description: kind=uploaded_files 时的平台附件列表。
+                    items:
+                      type: object
+                      fields:
+                        name: {type: string, description: 上传文件名}
+                        path: {type: string, description: 已脱敏的来源本地路径}
+                note: 平台恢复、请求快照和环境注入等，不应作为用户需求。
+              unknown:
+                type: any
+                description: 尚未映射的来源专有数据，仍然保留。
+          source:
+            type: object
+            fields:
+              input_file: {type: string, description: 原始输入文件}
+              record_index: {type: integer, description: 原始文件中的零基记录序号}
+              adapter: {type: string}
+              request_id: {type: [string, "null"]}
+          raw_ref:
+            type: object
+            description: 回到 unified_traces.jsonl 内完整脱敏 raw 的索引。
+            fields:
+              trace_id: {type: string}
+              event_id: {type: string}
+
+relationships:
+  trace_lookup: {file: unified_traces.jsonl, keys: [trace_id]}
+  raw_event_lookup: {file: unified_traces.jsonl, keys: [trace_id, event_id]}
+  tool_pairing: {within: events, keys: [tool_call.data.call_id, tool_result.data.call_id]}
+  chronological_order: {within_same_session: turn_index, within_same_turn: events.sequence}

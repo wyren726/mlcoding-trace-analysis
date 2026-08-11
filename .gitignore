@@ -1,0 +1,37 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+.claude/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pipeline-cache/
+pipeline-runs/
+!pipeline-runs/
+pipeline-runs/*
+!pipeline-runs/*.schema.yaml
+configs/.vscode_run.generated.json
+
+# Raw and generated data are synchronized through the artifact store, not Git.
+raw_data/
+preprocessed/*
+!preprocessed/*.schema.yaml
+features/*
+!features/*.schema.yaml
+analysis/*
+!analysis/*.schema.yaml
+outputs/
+archive/
+.cache/
+
+# Quality-filter code and schemas are tracked; all experiment inputs/results are artifacts.
+quality_filter/*
+!quality_filter/*.py
+!quality_filter/docs/
+!quality_filter/docs/**
+
+# Local installation and synchronization diagnostics.
+.install.log
+*.log
