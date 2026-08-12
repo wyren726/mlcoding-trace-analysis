@@ -10,9 +10,11 @@ from .scalable import induce_taxonomy_scalable, refine_taxonomy_labels
 from .scope_filter import filter_ml_llm_coding_scope
 from .dynamic import build_dynamic_taxonomy
 from .finalize import finalize_taxonomy
+from .instance_pool import prepare_instance_pool
 
 __all__ = ["build_candidate_core", "publish_reviewed_core", "suggest_reviews",
            "review_suggestions_with_llm", "organize_hierarchy", "validate_core_snapshot",
            "regenerate_distribution_csv", "induce_taxonomy", "induce_taxonomy_scalable",
            "refine_taxonomy_labels", "filter_ml_llm_coding_scope", "build_dynamic_taxonomy",
            "finalize_taxonomy"]
+__all__.append("prepare_instance_pool")

@@ -21,7 +21,7 @@ def _normalized_name(value: str) -> str:
     return re.sub(r"[\W_]+", "", value, flags=re.UNICODE).casefold()
 
 
-def _validate_atomic(value: dict[str, Any], expected: dict[str, set[str]]) -> list[dict[str, Any]]:
+def _validate_atomic(value: dict[str, Any], expected: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     decisions = value.get("decisions")
     if not isinstance(decisions, list):
         raise ValueError("Atomic response requires decisions")
@@ -43,10 +43,26 @@ def _validate_atomic(value: dict[str, Any], expected: dict[str, set[str]]) -> li
                 raise ValueError("Every atomic capability requires a name, definition and boundaries")
             support_type = capability.get("support_type")
             supporting_ids = [str(value) for value in capability.get("supporting_event_ids") or []]
+            case_expectation = expected[str(row["case_id"])]
+            if case_expectation["negotiated"]:
+                support_type = "negotiated"
+                supporting_ids = sorted(set(supporting_ids)
+                                        | case_expectation["proposal_event_ids"]
+                                        | case_expectation["acceptance_event_ids"])
+                capability["support_type"] = support_type
+                capability["supporting_event_ids"] = supporting_ids
             if support_type not in {"direct", "necessary", "negotiated"} or not supporting_ids:
                 raise ValueError("Atomic capability requires a valid support_type and supporting_event_ids")
-            if not set(supporting_ids).issubset(expected[str(row["case_id"])]):
+            if not set(supporting_ids).issubset(case_expectation["event_ids"]):
                 raise ValueError("Atomic capability cites evidence outside its source case")
+            if case_expectation["negotiated"]:
+                if support_type != "negotiated":
+                    raise ValueError("Negotiated requirement must use support_type=negotiated")
+                if not (set(supporting_ids) & case_expectation["proposal_event_ids"]
+                        and set(supporting_ids) & case_expectation["acceptance_event_ids"]):
+                    raise ValueError("Negotiated capability must cite both proposal and acceptance evidence")
+            elif support_type == "negotiated":
+                raise ValueError("Direct user requirement cannot use negotiated support_type")
     return decisions
 
 
@@ -267,11 +283,23 @@ def build_dynamic_taxonomy(core_dir: Path, output_root: Path, client: Any, provi
         checkpoint = atomic_dir / f"batch_{index:04d}.json"
         if checkpoint.exists():
             saved = json.loads(checkpoint.read_text(encoding="utf-8"))
-            expected = {row["case_id"]: {str(e["event_id"]) for e in row.get("evidence") or []}
-                        for row in batch}
+            expected = {row["case_id"]: {
+                "event_ids": {str(e["event_id"]) for e in row.get("evidence") or []},
+                "proposal_event_ids": {str(e["event_id"]) for e in row.get("evidence") or []
+                                       if e.get("evidence_type") == "negotiation_proposal"},
+                "acceptance_event_ids": {str(e["event_id"]) for e in row.get("evidence") or []
+                                         if e.get("evidence_type") == "requirement_acceptance"},
+                "negotiated": row.get("requirement_origin") != "direct_user_requirement",
+            } for row in batch}
             return index, _validate_atomic(saved, expected)
-        expected = {row["case_id"]: {str(e["event_id"]) for e in row.get("evidence") or []}
-                    for row in batch}
+        expected = {row["case_id"]: {
+            "event_ids": {str(e["event_id"]) for e in row.get("evidence") or []},
+            "proposal_event_ids": {str(e["event_id"]) for e in row.get("evidence") or []
+                                   if e.get("evidence_type") == "negotiation_proposal"},
+            "acceptance_event_ids": {str(e["event_id"]) for e in row.get("evidence") or []
+                                     if e.get("evidence_type") == "requirement_acceptance"},
+            "negotiated": row.get("requirement_origin") != "direct_user_requirement",
+        } for row in batch}
         decisions, meta = _complete_validated(
             client, atomic_system, {"cases": batch}, lambda value: _validate_atomic(value, expected))
         checkpoint.write_text(json.dumps({"decisions": decisions, "api_meta": meta}, ensure_ascii=False, indent=2),

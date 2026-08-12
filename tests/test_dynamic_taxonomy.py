@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from trace_analysis.analysis.core.dynamic import _validate_merge, build_dynamic_taxonomy
+from trace_analysis.analysis.core.dynamic import _validate_atomic, _validate_merge, build_dynamic_taxonomy
 from trace_analysis.features.custom.semantic import add_negotiation_ids, is_negotiation_candidate, validate
 
 
@@ -110,6 +110,18 @@ def test_negotiation_prefilter_requires_plan_and_follow_up():
     assert not is_negotiation_candidate(turn, [])
     assert not is_negotiation_candidate(
         {"events": [{"type": "assistant_message", "data": {"content": "你好"}}]}, follow_up)
+
+
+def test_negotiated_atomic_capability_requires_both_sides_of_evidence_chain():
+    expectation = {"case": {"event_ids": {"proposal", "accept"},
+                            "proposal_event_ids": {"proposal"},
+                            "acceptance_event_ids": {"accept"}, "negotiated": True}}
+    capability = {"name": "下载并验证数据集", "definition": "下载并检查数据",
+                  "inclusion_criteria": "用户接受该计划项", "exclusion_criteria": "计划未被接受",
+                  "support_type": "negotiated", "supporting_event_ids": ["proposal", "accept"]}
+    rows = _validate_atomic({"decisions": [{"case_id": "case", "status": "included",
+                                             "reason": "证据链完整", "capabilities": [capability]}]}, expectation)
+    assert rows[0]["capabilities"][0]["support_type"] == "negotiated"
 
 
 def test_dynamic_taxonomy_is_global_atomic_and_multilabel(tmp_path: Path):
