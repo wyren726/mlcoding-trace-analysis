@@ -4,10 +4,11 @@ import csv
 import json
 import os
 import time
+import zipfile
 import pytest
 from pathlib import Path
 
-from trace_analysis.preprocessing.pipeline import run_preprocess
+from trace_analysis.preprocessing.pipeline import run_preprocess, run_preprocess_collector_zip
 from trace_analysis.features.basic import run_basic_features
 from trace_analysis.features.basic.extractor import extract_turn
 from trace_analysis.features.incremental import consolidate_feature_set
@@ -173,6 +174,68 @@ def test_collector_auto_detection_and_turn_propagation(tmp_path: Path) -> None:
     assert result["adapter"] == "collector_events"
     with (tmp_path / "out" / "data_registry.csv").open(encoding="utf-8") as handle:
         assert next(csv.DictReader(handle))["session_count"] == "1"
+
+
+def test_collector_zip_streams_member_registers_source_and_deduplicates(tmp_path: Path) -> None:
+    source = tmp_path / "collector.zip"
+    base = {"trace_schema_version": "v0.2.0", "session_id": "s1", "trace_id": None,
+            "timestamp": "2026-01-01T00:00:00Z", "project_hmac": {},
+            "project_identity_source": "cwd", "source": {"adapter": "codex_rollout_jsonl"}}
+    records = [
+        {**base, "event_id": "e1", "turn_id": "t1", "sequence": 1, "event_type": "event_msg",
+         "payload": {"type": "event_msg", "payload": {"type": "task_started", "turn_id": "t1"}}},
+        {**base, "event_id": "e2", "turn_id": "t1", "sequence": 2, "event_type": "event_msg",
+         "payload": {"type": "event_msg", "payload": {"type": "task_complete", "turn_id": "t1"}}},
+    ]
+    member = "collection_test/raw_trace_events.jsonl"
+    payload = "".join(json.dumps(record) + "\n" for record in records)
+    with zipfile.ZipFile(source, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(member, payload)
+
+    output = tmp_path / "preprocessed"
+    first = run_preprocess_collector_zip(str(source), output)
+    second = run_preprocess_collector_zip(str(source), output)
+    repacked = tmp_path / "collector-repacked.zip"
+    with zipfile.ZipFile(repacked, "w", compression=zipfile.ZIP_STORED) as archive:
+        archive.writestr(member, payload)
+    repacked_result = run_preprocess_collector_zip(str(repacked), output)
+    assert first["adapter"] == "collector_events"
+    assert first["source_type"] == "collector_zip"
+    assert first["source_member"] == member
+    assert first["source_uri"].startswith("zip://")
+    assert first["member_uncompressed_size"] == len(payload.encode())
+    assert len(first["member_crc32"]) == 8
+    assert len(first["source_fingerprint"]) == 64
+    assert second["deduplicated"] is True
+    assert second["batch_id"] == first["batch_id"]
+    assert repacked_result["deduplicated"] is True
+    assert repacked_result["batch_id"] == first["batch_id"]
+    assert len(list(output.glob("batch_*"))) == 1
+    with (output / "data_registry.csv").open(encoding="utf-8-sig") as handle:
+        row = next(csv.DictReader(handle))
+    assert row["source_type"] == "collector_zip" and row["source_member"] == member
+
+
+def test_collector_zip_requires_exactly_one_raw_trace_member(tmp_path: Path) -> None:
+    source = tmp_path / "invalid.zip"
+    with zipfile.ZipFile(source, "w") as archive:
+        archive.writestr("manifest.json", "{}")
+    with pytest.raises(ValueError, match="exactly one"):
+        run_preprocess_collector_zip(str(source), tmp_path / "preprocessed")
+
+
+def test_registry_header_expands_for_zip_fields_without_losing_history(tmp_path: Path) -> None:
+    from trace_analysis.preprocessing.pipeline import _append_registry
+    output = tmp_path / "preprocessed"
+    output.mkdir()
+    registry = output / "data_registry.csv"
+    registry.write_text("batch_id,source,status\nold,[old],success\n", encoding="utf-8-sig")
+    _append_registry(output, {"batch_id": "new", "source": "[]", "status": "success",
+                              "source_type": "collector_zip", "member_crc32": "12345678"})
+    with registry.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    assert [row["batch_id"] for row in rows] == ["old", "new"]
+    assert rows[0]["source_type"] == "" and rows[1]["member_crc32"] == "12345678"
 
 
 def test_collector_v020_normalizes_codex_tools_model_harness_and_duplicate_messages(tmp_path: Path) -> None:

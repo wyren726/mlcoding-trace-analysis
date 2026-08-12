@@ -3,7 +3,7 @@ file: {name: data_registry.csv, format: csv, record_unit: preprocessing_batch}
 description: 每行登记一次预处理运行，历史行追加、不覆盖。
 columns:
   batch_id: {type: string, description: 批次 ID；失败运行以 failed_ 开头}
-  source: {type: json_encoded_array, description: 输入文件或目录列表}
+  source: {type: json_encoded_array, description: 输入文件、目录或 Collector ZIP 列表}
   processed_at: {type: datetime, format: ISO-8601}
   adapter: {type: string, description: 使用的 Adapter；多个时用加号连接}
   raw_size_bytes: {type: integer}
@@ -22,3 +22,26 @@ columns:
       counts: {type: map, key_type: harness_name, value_type: integer}
   output_path: {type: string}
   status: {type: enum, values: [success, partial, failed]}
+  source_type:
+    type: enum
+    values: [files, collector_zip]
+    description: 普通文件输入或不落盘流式读取的 Collector ZIP
+  source_member:
+    type: string
+    nullable: true
+    description: ZIP 输入时内部 raw_trace_events.jsonl 的成员路径
+  source_uri:
+    type: string
+    nullable: true
+    description: ZIP 输入时格式为 zip:///absolute/archive.zip!/member/path
+  source_fingerprint:
+    type: string
+    description: 普通输入指纹或 Collector ZIP 完整文件 SHA-256
+  member_crc32:
+    type: string
+    nullable: true
+    description: ZIP 中 raw_trace_events.jsonl 的八位十六进制 CRC32
+  member_uncompressed_size:
+    type: integer
+    nullable: true
+    description: ZIP 中 raw_trace_events.jsonl 的未压缩字节数

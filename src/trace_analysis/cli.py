@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
-from .preprocessing.pipeline import run_preprocess
+from .preprocessing.pipeline import run_preprocess, run_preprocess_collector_zip
 from .features.basic import run_basic_features
 from .features.incremental import consolidate_feature_set
 from .features.custom import (TASKS, audit_demand_grounding, configured_client, repair_requirement_sources,
@@ -31,6 +31,11 @@ def parser() -> argparse.ArgumentParser:
     preprocess.add_argument("--output-root", default="preprocessed")
     preprocess.add_argument("--adapter", choices=("collector_events", "sls_proxy", "session_jsonl"))
     preprocess.add_argument("--limit", type=int, help="Smoke-test record limit")
+    ingest_zip = commands.add_parser(
+        "ingest-collector-zip", help="Stream a collector ZIP into standard preprocessed outputs")
+    ingest_zip.add_argument("--source", required=True, help="Collector ZIP path")
+    ingest_zip.add_argument("--output-root", default="preprocessed")
+    ingest_zip.add_argument("--limit", type=int, help="Smoke-test record limit")
     features = commands.add_parser("features", help="Extract reusable features")
     features.add_argument("--batch", nargs="+", required=True,
                           help="One or more preprocessed batch directories")
@@ -216,6 +221,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     if args.command == "preprocess":
         result = run_preprocess(args.source, Path(args.output_root), args.adapter, args.limit)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "ingest-collector-zip":
+        result = run_preprocess_collector_zip(args.source, Path(args.output_root), args.limit)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     if args.command == "consolidate-features":

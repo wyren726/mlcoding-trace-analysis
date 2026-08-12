@@ -5,6 +5,7 @@ import datetime as dt
 import hashlib
 import json
 import sqlite3
+import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
@@ -17,15 +18,30 @@ from ..registries import registry_root_for_output, write_immutable_record
 REGISTRY_FIELDS = [
     "batch_id", "source", "processed_at", "adapter", "raw_size_bytes",
     "output_size_bytes", "session_count", "event_count", "model_distribution",
-    "harness_distribution", "output_path", "status",
+    "harness_distribution", "output_path", "status", "source_type",
+    "source_member", "source_uri", "source_fingerprint", "member_crc32",
+    "member_uncompressed_size",
 ]
 
-PREPROCESSOR_VERSION = "v1.6.2-collector-v020"
+PREPROCESSOR_VERSION = "v1.7.0-collector-zip-stream"
 
 
 def _append_registry(output_root: Path, row: dict[str, Any]) -> None:
     output_root.mkdir(parents=True, exist_ok=True)
     registry = output_root / "data_registry.csv"
+    if registry.exists():
+        with registry.open(encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle)
+            existing_fields = reader.fieldnames or []
+            existing_rows = list(reader)
+        if existing_fields != REGISTRY_FIELDS:
+            temporary = registry.with_suffix(".csv.tmp")
+            with temporary.open("w", newline="", encoding="utf-8-sig") as handle:
+                writer = csv.DictWriter(handle, fieldnames=REGISTRY_FIELDS)
+                writer.writeheader()
+                for existing in existing_rows:
+                    writer.writerow({key: existing.get(key, "") for key in REGISTRY_FIELDS})
+            temporary.replace(registry)
     write_header = not registry.exists()
     with registry.open("a", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=REGISTRY_FIELDS)
@@ -42,6 +58,45 @@ def _input_fingerprint(files: list[Path]) -> str:
         with path.open("rb") as handle:
             digest.update(handle.read(1024 * 1024))
     return digest.hexdigest()
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _collector_zip_member(archive: zipfile.ZipFile) -> zipfile.ZipInfo:
+    matches = [info for info in archive.infolist()
+               if not info.is_dir() and info.filename.endswith("/raw_trace_events.jsonl")]
+    if len(matches) != 1:
+        raise ValueError(
+            "Collector ZIP must contain exactly one */raw_trace_events.jsonl; "
+            f"found {len(matches)}")
+    return matches[0]
+
+
+def _zip_source_metadata(path: Path) -> dict[str, Any]:
+    with zipfile.ZipFile(path) as archive:
+        member = _collector_zip_member(archive)
+    fingerprint = _sha256_file(path)
+    return {
+        "source_type": "collector_zip",
+        "source_path": str(path),
+        "source_member": member.filename,
+        "source_uri": f"zip://{path}!/{member.filename}",
+        "source_fingerprint": fingerprint,
+        "member_crc32": f"{member.CRC:08x}",
+        "member_uncompressed_size": member.file_size,
+    }
+
+
+def _zip_lines(path: Path, member: str) -> Iterable[str]:
+    with zipfile.ZipFile(path) as archive, archive.open(member) as stream:
+        for raw_line in stream:
+            yield raw_line.decode("utf-8", errors="replace")
 
 
 def _read_ingestion_index(path: Path) -> dict[str, Any]:
@@ -159,17 +214,29 @@ def get_harness(event: dict[str, Any]) -> str | None:
 
 
 def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter: str | None,
-                         limit: int | None) -> dict[str, Any]:
-    files = source_files(inputs)
+                         limit: int | None, zip_source: Path | None = None) -> dict[str, Any]:
+    files = [] if zip_source else source_files(inputs)
     output_root.mkdir(parents=True, exist_ok=True)
     now = dt.datetime.now().astimezone()
-    input_fingerprint = _input_fingerprint(files)
+    zip_metadata = _zip_source_metadata(zip_source) if zip_source else {}
+    input_fingerprint = (str(zip_metadata["source_fingerprint"]) if zip_source
+                         else _input_fingerprint(files))
     ingestion_key = hashlib.sha256(
         f"{PREPROCESSOR_VERSION}|{input_fingerprint}|adapter={requested_adapter or 'auto'}|limit={limit}".encode()
     ).hexdigest()
     index_path = output_root / ".ingestion_index.json"
     ingestion_index = _read_ingestion_index(index_path)
     prior = ingestion_index.get(ingestion_key)
+    if not prior and zip_source:
+        member_identity = (str(zip_metadata["member_crc32"]),
+                           int(zip_metadata["member_uncompressed_size"]))
+        prior = next((entry for entry in ingestion_index.values()
+                      if isinstance(entry, dict)
+                      and (str(entry.get("member_crc32")), int(entry.get("member_uncompressed_size") or -1))
+                      == member_identity
+                      and entry.get("preprocessor_version") == PREPROCESSOR_VERSION
+                      and entry.get("adapter") == "collector_events"
+                      and entry.get("limit") == limit), None)
     if isinstance(prior, dict) and Path(str(prior.get("output_path", ""))).is_dir():
         return {**prior, "deduplicated": True, "duplicate_of_batch_id": prior.get("batch_id")}
     signature = input_fingerprint[:8]
@@ -194,12 +261,27 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
     staged = 0
 
     rejected_out = rejected_path.open("w", encoding="utf-8")
-    for path in files:
-        detected = choose_adapter(first_record(path), requested_adapter)
+    if zip_source:
+        sources = [(str(zip_source), lambda: _zip_lines(zip_source, str(zip_metadata["source_member"])))]
+    else:
+        sources = [(str(path), lambda path=path: path.open("r", encoding="utf-8", errors="replace"))
+                   for path in files]
+    for source_label, open_lines in sources:
+        lines = iter(open_lines())
+        first_line = next((line for line in lines if line.strip()), None)
+        if first_line is None:
+            raise ValueError(f"Empty input: {source_label}")
+        first = json.loads(first_line)
+        if not isinstance(first, dict):
+            raise ValueError(f"First record is not an object: {source_label}")
+        detected = choose_adapter(first, requested_adapter)
         adapter = adapter_cache.setdefault(detected.name, detected)
         adapters[adapter.name] += 1
-        with path.open("r", encoding="utf-8", errors="replace") as handle:
-            for index, line in enumerate(handle):
+        def records() -> Iterable[str]:
+            yield first_line
+            yield from lines
+        try:
+            for index, line in enumerate(records()):
                 if not line.strip():
                     continue
                 if limit is not None and seen >= limit:
@@ -207,7 +289,8 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
                 seen += 1
                 try:
                     record = json.loads(line)
-                    converted = adapter.convert(record, batch_id=batch_id, source_file=str(path), record_index=index)
+                    converted = adapter.convert(record, batch_id=batch_id, source_file=source_label,
+                                                record_index=index)
                     for event in converted if isinstance(converted, list) else [converted]:
                         database.execute(
                             "INSERT INTO events VALUES (?, ?, ?, ?)",
@@ -220,12 +303,16 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
                 except (ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
                     rejected += 1
                     rejected_out.write(json.dumps({
-                        "source_file": str(path), "record_index": index,
+                        "source_file": source_label, "record_index": index,
                         "reason": f"{type(exc).__name__}: {exc}",
                         "raw_text": redact_text(line.rstrip("\n")[:10000]),
                     }, ensure_ascii=False, separators=(",", ":")) + "\n")
-            if limit is not None and seen >= limit:
-                break
+        finally:
+            close = getattr(lines, "close", None)
+            if close:
+                close()
+        if limit is not None and seen >= limit:
+            break
 
     rejected_out.close()
     database.commit()
@@ -303,7 +390,8 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
         "batch_id": batch_id,
         "source": json.dumps([str(Path(value).expanduser().resolve()) for value in inputs], ensure_ascii=False),
         "processed_at": now.isoformat(), "adapter": "+".join(sorted(adapters)),
-        "raw_size_bytes": sum(path.stat().st_size for path in files), "output_size_bytes": output_size,
+        "raw_size_bytes": (int(zip_metadata.get("member_uncompressed_size", 0)) if zip_source
+                           else sum(path.stat().st_size for path in files)), "output_size_bytes": output_size,
         "session_count": len(session_ids), "event_count": event_count,
         "model_distribution": json.dumps({
             "unit": "model_call" if model_call_counts else "turn_fallback",
@@ -311,6 +399,12 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
         }, ensure_ascii=False),
         "harness_distribution": json.dumps({"unit": "session", "counts": harness_counts}, ensure_ascii=False),
         "output_path": str(batch_dir.resolve()), "status": status,
+        "source_type": zip_metadata.get("source_type", "files"),
+        "source_member": zip_metadata.get("source_member", ""),
+        "source_uri": zip_metadata.get("source_uri", ""),
+        "source_fingerprint": input_fingerprint,
+        "member_crc32": zip_metadata.get("member_crc32", ""),
+        "member_uncompressed_size": zip_metadata.get("member_uncompressed_size", ""),
     }
     _append_registry(output_root, row)
     registry_record = write_immutable_record(
@@ -324,6 +418,7 @@ def _run_preprocess_impl(inputs: list[str], output_root: Path, requested_adapter
             suffix_path.unlink()
     result = {**row, "preprocessor_version": PREPROCESSOR_VERSION,
               "input_fingerprint": input_fingerprint, "deduplicated": False,
+              "limit": limit,
               "rejected_record_count": rejected, "rejected_records_path": str(rejected_path.resolve())}
     result["registry_record_path"] = str(registry_record.resolve())
     ingestion_index[ingestion_key] = result
@@ -355,5 +450,38 @@ def run_preprocess(inputs: list[str], output_root: Path, requested_adapter: str 
             "model_distribution": json.dumps({"unit": "none", "counts": {}}),
             "harness_distribution": json.dumps({"unit": "none", "counts": {}}),
             "output_path": str(diagnostics.resolve()), "status": "failed",
+        })
+        raise
+
+
+def run_preprocess_collector_zip(source: str, output_root: Path,
+                                 limit: int | None = None) -> dict[str, Any]:
+    """Stream a collector raw_trace_events.jsonl member without extracting it."""
+    path = Path(source).expanduser().resolve()
+    if not path.is_file():
+        raise FileNotFoundError(source)
+    try:
+        return _run_preprocess_impl([str(path)], output_root, "collector_events", limit,
+                                    zip_source=path)
+    except Exception as exc:
+        now = dt.datetime.now().astimezone()
+        output_root.mkdir(parents=True, exist_ok=True)
+        failure_id = f"failed_{now.strftime('%Y%m%d_%H%M%S_%f')}"
+        diagnostics = output_root / f"{failure_id}.json"
+        diagnostics.write_text(json.dumps({
+            "status": "failed", "processed_at": now.isoformat(), "sources": [str(path)],
+            "requested_adapter": "collector_events", "limit": limit,
+            "source_type": "collector_zip", "error_type": type(exc).__name__,
+            "error": redact_text(str(exc)),
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        _append_registry(output_root, {
+            "batch_id": failure_id, "source": json.dumps([str(path)], ensure_ascii=False),
+            "processed_at": now.isoformat(), "adapter": "collector_events",
+            "raw_size_bytes": path.stat().st_size, "output_size_bytes": diagnostics.stat().st_size,
+            "session_count": 0, "event_count": 0,
+            "model_distribution": json.dumps({"unit": "none", "counts": {}}),
+            "harness_distribution": json.dumps({"unit": "none", "counts": {}}),
+            "output_path": str(diagnostics.resolve()), "status": "failed",
+            "source_type": "collector_zip",
         })
         raise
