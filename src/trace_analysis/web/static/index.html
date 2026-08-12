@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>能力调研</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">ML/LLM CODING AGENT RESEARCH</p>
+      <h1 id="site-title">能力调研</h1>
+      <p id="version-line" class="muted">正在读取分析快照…</p>
+    </div>
+    <button id="refresh-button" type="button">刷新数据</button>
+  </header>
+
+  <nav class="primary-nav" aria-label="主要页面">
+    <button type="button" data-view-button="overview" aria-current="page">数据总览</button>
+    <button type="button" data-view-button="forest">能力分布</button>
+  </nav>
+
+  <main>
+    <section id="view-overview" data-view="overview">
+      <div class="overview-intro">
+        <p class="eyebrow">CURRENT RESEARCH SNAPSHOT</p>
+        <h2>当前能力调研概览</h2>
+        <p>本页面展示科研 ML/LLM Coding Agent 的用户需求能力分布。叶子节点后的数字表示支持该能力的不同真实用户 Query 数。</p>
+      </div>
+      <section class="summary" aria-label="分析概况">
+        <div><strong id="node-count">—</strong><span>能力节点</span></div>
+        <div><strong id="leaf-count">—</strong><span>叶子能力</span></div>
+        <div><strong id="query-count">—</strong><span>用户 Query</span></div>
+        <div><strong id="case-count">—</strong><span>能力映射案例</span></div>
+      </section>
+      <section class="distribution-section" aria-labelledby="distribution-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="distribution-title">能力关系图</h2>
+            <p class="muted">细线表示能力的父子关系；拖动节点可观察相关能力如何联动，点大小表示用户 Query 数。</p>
+          </div>
+          <button id="reset-plot-button" class="text-button" type="button">重置视图</button>
+        </div>
+        <div id="plot-legend" class="plot-legend" aria-label="一级能力颜色图例"></div>
+        <div id="capability-plot" class="capability-plot" role="img" aria-label="可缩放拖动的能力父子关系图">
+          <svg id="plot-svg" viewBox="0 0 1000 620" aria-labelledby="distribution-title">
+            <g id="plot-viewport"></g>
+          </svg>
+          <div id="plot-tooltip" class="plot-tooltip" role="tooltip" hidden></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="view-forest" data-view="forest" hidden>
+      <label class="search-label" for="search-input">搜索能力名称或真实用户 Query</label>
+      <input id="search-input" type="search" placeholder="例如：训练日志、数据集验证、论文复现">
+      <p id="search-status" class="muted search-status" aria-live="polite"></p>
+
+      <div class="workspace">
+        <section class="outline" aria-labelledby="outline-title">
+          <div class="section-heading">
+            <h2 id="outline-title">能力分布</h2>
+            <button id="collapse-button" class="text-button" type="button">全部收起</button>
+          </div>
+          <div id="tree" class="tree" aria-live="polite"></div>
+        </section>
+
+        <section id="detail" class="detail" aria-labelledby="detail-title">
+          <div id="empty-detail" class="empty-detail">
+            <h2 id="detail-title">选择一个叶子能力</h2>
+            <p>点击左侧叶子节点，查看能力释义和支持它的全部真实用户 Query。</p>
+          </div>
+          <div id="detail-content" hidden></div>
+        </section>
+      </div>
+    </section>
+
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
