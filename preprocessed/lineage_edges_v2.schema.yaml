@@ -1,0 +1,22 @@
+schema_document_version: "1.0"
+file:
+  name: workspace/datasets/{dataset_id}/batches/{batch_id}/01_preprocess/lineage_edges/part-*.jsonl
+  format: jsonl
+  record_unit: lineage_edge
+record:
+  type: object
+  required: [schema_version, lineage_edge_id, edge_type, from_ref, to_ref]
+  fields:
+    schema_version: {type: string, example: v2.0}
+    lineage_edge_id: {type: string}
+    edge_type: {type: enum, values: [normalized_from]}
+    from_ref:
+      type: object
+      fields:
+        source_record_id: {type: string}
+        json_pointer: {type: string}
+    to_ref:
+      type: object
+      fields:
+        record_type: {type: enum, values: [event]}
+        event_id: {type: string}

@@ -1,0 +1,2 @@
+# Preserve the taxonomy snapshot bytes and recognize CSV CRLF endings.
+src/trace_analysis/pipeline/stage_06_trace_quality_labeling/config/requirement_taxonomy.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -19,6 +19,7 @@
   <nav class="primary-nav" aria-label="主要页面">
     <button type="button" data-view-button="overview" aria-current="page">数据总览</button>
     <button type="button" data-view-button="forest">能力分布</button>
+    <button type="button" data-view-button="pain">痛点分析</button>
   </nav>
 
   <main>
@@ -72,6 +73,63 @@
             <p>点击左侧叶子节点，查看能力释义和支持它的全部真实用户 Query。</p>
           </div>
           <div id="detail-content" hidden></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="view-pain" data-view="pain" hidden>
+      <div class="overview-intro pain-intro">
+        <p class="eyebrow">VERIFIED USER PAIN EPISODES</p>
+        <h2>真实用户痛点分析</h2>
+        <p id="pain-methodology">正在读取分析口径…</p>
+        <p id="pain-version-line" class="muted">正在读取分析快照…</p>
+      </div>
+
+      <section class="summary pain-summary" aria-label="痛点分析概况">
+        <div><strong id="pain-total-count">—</strong><span>全批次 Trace</span></div>
+        <div><strong id="pain-verified-count">—</strong><span>验证 Episode</span></div>
+        <div><strong id="pain-confirmed-count">—</strong><span>确认痛点</span></div>
+        <div><strong id="pain-review-count">—</strong><span>需人工复核</span></div>
+      </section>
+
+      <aside id="pain-caveat" class="report-note" aria-label="结论限制"></aside>
+
+      <section class="pain-model-overview" aria-labelledby="pain-model-title">
+        <div class="section-heading"><h2 id="pain-model-title">被分析模型与判定分布</h2></div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>被分析模型</th><th>Trace</th><th>确认痛点</th><th>需复核</th><th>排除候选</th></tr></thead>
+            <tbody id="pain-model-table"><tr><td colspan="5" class="muted">正在读取…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="pain-controls" aria-label="筛选痛点案例">
+        <label class="pain-search-label">
+          <span>搜索案例</span>
+          <input id="pain-search" type="search" placeholder="目标、失败、能力缺口、Trace ID">
+        </label>
+        <label><span>数据批次</span><select id="pain-batch-filter"><option value="">全部批次</option></select></label>
+        <label><span>判定</span><select id="pain-status-filter"><option value="">全部判定</option></select></label>
+        <label><span>被分析模型</span><select id="pain-model-filter"><option value="">全部模型</option></select></label>
+        <label><span>Harness</span><select id="pain-harness-filter"><option value="">全部 Harness</option></select></label>
+        <label><span>归因</span><select id="pain-attribution-filter"><option value="">全部归因</option></select></label>
+        <label><span>任务结果</span><select id="pain-outcome-filter"><option value="">全部结果</option></select></label>
+        <label><span>能力缺口</span><select id="pain-gap-filter"><option value="">全部能力缺口</option></select></label>
+      </section>
+
+      <p id="pain-result-count" class="muted search-status" aria-live="polite"></p>
+      <div class="pain-workspace">
+        <section class="pain-list-panel" aria-labelledby="pain-list-title">
+          <div class="section-heading"><h2 id="pain-list-title">候选案例</h2></div>
+          <div id="pain-list" class="pain-list" aria-live="polite"></div>
+        </section>
+        <section id="pain-detail" class="pain-detail" aria-labelledby="pain-detail-title">
+          <div id="pain-empty-detail" class="empty-detail">
+            <h2 id="pain-detail-title">选择一个 Episode</h2>
+            <p>左侧每个条目对应一个经过用户侧筛选、再结合 Agent 与工具证据验证的任务 Episode。</p>
+          </div>
+          <div id="pain-detail-content" hidden></div>
         </section>
       </div>
     </section>

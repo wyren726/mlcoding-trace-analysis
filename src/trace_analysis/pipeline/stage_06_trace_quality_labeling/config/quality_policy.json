@@ -1,0 +1,68 @@
+{
+  "version": "stage06-v1-draft",
+  "status": "pending_redesign_separate_trace_quality_from_label_support",
+  "applies_to": [
+    "episode",
+    "case_requirement"
+  ],
+  "precondition": "schema, evidence references and cross-field consistency valid; otherwise validation_status=invalid, no grade",
+  "evaluation": "first_match_in_order",
+  "rules": [
+    {
+      "id": "Q1",
+      "grade": "low",
+      "when_any": [
+        "any_gate_false",
+        "integrity_broken",
+        "evidence_insufficient"
+      ]
+    },
+    {
+      "id": "Q2",
+      "grade": "unknown",
+      "when_any": [
+        "any_gate_null",
+        "integrity_unknown",
+        "evidence_unknown",
+        "unresolved_core_conflict"
+      ]
+    },
+    {
+      "id": "Q3",
+      "grade": "high",
+      "when_all": [
+        "all_gates_true",
+        "integrity_complete",
+        "evidence_sufficient",
+        "no_unresolved_core_conflict"
+      ]
+    },
+    {
+      "id": "Q4",
+      "grade": "medium",
+      "when_all": [
+        "all_gates_true",
+        "integrity_complete_or_partial",
+        "evidence_sufficient_or_partial",
+        "only_documented_noncore_gaps"
+      ]
+    }
+  ],
+  "fallback": "invalid",
+  "consistency": {
+    "sufficient": "evidence_sufficient gate must be true",
+    "insufficient": "evidence_sufficient gate must be false",
+    "unknown": "evidence_sufficient gate must be null",
+    "partial": "true for noncore gaps only; null for pending core evidence"
+  },
+  "score_enabled": false,
+  "non_scoring_fields": [
+    "domain",
+    "work_object",
+    "difficulty",
+    "mapping_count",
+    "feedback_count"
+  ],
+  "enabled": false,
+  "confirmed_label_support_rule": "claim.support_status and review.claim_reviews assess individual labels; do not automatically convert label errors or missing citations into trace_quality low."
+}

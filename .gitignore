@@ -7,6 +7,8 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+build/
+dist/
 .pytest_cache/
 .pipeline-cache/
 pipeline-runs/
@@ -36,3 +38,16 @@ quality_filter/*
 # Local installation and synchronization diagnostics.
 .install.log
 *.log
+
+# Large data / external project directories (kept out of Git).
+hosted-capability-site/
+hosted-capability-site-clean-importer/
+workspace/
+
+# Registry records are artifacts; only the schema is tracked.
+registries/analysis-runs/
+registries/datasets/
+
+# Generated reports remain local; maintain the shared workflow guide in Git.
+docs/*
+!docs/TRACE_SCREENING_WORKFLOW.md

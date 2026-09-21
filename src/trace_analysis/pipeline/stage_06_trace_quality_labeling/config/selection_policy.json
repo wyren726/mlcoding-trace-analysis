@@ -1,0 +1,99 @@
+{
+  "input_pain_judgments": [
+    "confirmed",
+    "review"
+  ],
+  "mode": "episode",
+  "allowed_modes": [
+    "episode",
+    "case_requirement"
+  ],
+  "scope_filters": {
+    "domains": [],
+    "work_objects": [],
+    "taxonomy_rows": []
+  },
+  "empty_filter_semantics": "no_restriction",
+  "local_pain_claim": "Episode confirmed does not establish pain for each requirement; require linked failure evidence.",
+  "deduplication": {
+    "exact_unit_key": [
+      "case_id",
+      "assessment_id"
+    ],
+    "same_session_auto_drop": false,
+    "semantic_duplicates": "review_and_record_all_sources"
+  },
+  "capacity": null,
+  "coverage_quotas": {},
+  "tie_breaker": [
+    "case_id",
+    "assessment_id"
+  ],
+  "selection_score_enabled": false,
+  "requirement_matching_policy": "requirement_matching_policy.json",
+  "version": "stage06-selection-v3",
+  "status": "standalone_selector_implemented_pending_calibration",
+  "source_spec": "../../../../../docs/06阶段基于已有标签的Trace筛选方案_20260917.md",
+  "input_scope_note": "confirmed/review 仅限定当前复用的04输入；通用候选不要求 historical_confirmed。",
+  "semantic_labels_added": [],
+  "quality_policy_dependency": false,
+  "rules": [
+    {
+      "rule_id": "S1",
+      "name": "主需求及具体子需求成立",
+      "criterion": "至少一个前33类主需求及其子需求有 supported 证据；父级明确但子级未知则待复核。"
+    },
+    {
+      "rule_id": "S2",
+      "name": "任务有实质性挑战",
+      "criterion": "已有 difficulty=medium/high 且证据支持；unknown 待复核，核验 low 不入优先池。"
+    },
+    {
+      "rule_id": "S3",
+      "name": "能还原连贯的任务要求",
+      "criterion": "从已有目标、要求、约束、演进及原文还原同一任务；不能拼接无关目标。"
+    },
+    {
+      "rule_id": "S4",
+      "name": "完成条件可从已有记录明确",
+      "criterion": "用户要求及关联测试、指标、输出等支持完成条件；不得用分类表通用验收点替案例发明标准。"
+    }
+  ],
+  "rule_evaluation": "复用已有标签及关联原文实际核验，保存 claim/evidence 引用；不得仅按字段非空自动通过，不重跑语义打标。",
+  "prechecks": [
+    "valid_label_and_references",
+    "scope_match",
+    "no_selection_critical_unresolved_conflict"
+  ],
+  "decisions": {
+    "priority_candidate": "全部前置检查及 S1–S4 通过，可据 session ID 索取 workspace，尚不代表已确认可复现。",
+    "review": "无核实的排除原因，但至少一项待查或需修正。",
+    "not_selected": "至少一项经核实不满足，或明确不符合选集范围；保留原记录。"
+  },
+  "invalid_label_handling": "先修正或待复核；不得将错误标签直接作为原始 Trace 排除依据。",
+  "review_provenance": "记录实际审核者 model/human、版本、复核引用；模型初标 supported 不等于人工核验。",
+  "mapping_count_hard_limit": null,
+  "automatic_runner_enabled": false,
+  "execution": {
+    "entrypoint": "trace_analysis pipeline select",
+    "implementation": "../selection.py",
+    "semantic_model_calls": true,
+    "legacy_label_runner_integrated": false,
+    "model_review_rules": [
+      "S3",
+      "S4"
+    ],
+    "model_review_prompt": "selection_review_prompt.md",
+    "rules_only_option": "--rules-only"
+  },
+  "deferred_workspace_checks": {
+    "stage": "after_workspace_acquisition",
+    "affects_current_selection": false,
+    "checks": [
+      "必要输入及起始代码/数据状态",
+      "版本、配置、环境与材料可获得性",
+      "任务构造与复现可行性"
+    ]
+  },
+  "audit_evidence_policy": "same_case_verified_refs_with_semantic_support"
+}

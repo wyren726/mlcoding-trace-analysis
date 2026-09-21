@@ -1,0 +1,1186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/common.schema.json",
+  "$defs": {
+    "source_locator": {
+      "type": "object",
+      "properties": {
+        "source_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "physical_line": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
+      },
+      "required": [
+        "source_file",
+        "record_index",
+        "physical_line"
+      ],
+      "additionalProperties": false
+    },
+    "evidence_ref": {
+      "type": "object",
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "turn_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_role": {
+          "enum": [
+            "user",
+            "assistant",
+            "tool",
+            "system",
+            "error"
+          ]
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "$ref": "common.schema.json#/$defs/source_locator"
+        },
+        "episode_membership": {
+          "enum": [
+            "episode",
+            "prior_context",
+            "post_episode_context"
+          ]
+        }
+      },
+      "required": [
+        "evidence_id",
+        "event_id",
+        "turn_id",
+        "source_role",
+        "quote",
+        "locator",
+        "episode_membership"
+      ],
+      "additionalProperties": false
+    },
+    "claim": {
+      "type": "object",
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "field_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "missing_evidence_queries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "conflicting_evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "support_status": {
+          "enum": [
+            "supported",
+            "partial",
+            "unsupported",
+            "unknown"
+          ],
+          "description": "标签证据支持状态：评价 field_path 指向的具体标签主张，不评价整个 Trace。初标为待复核判断，实际复核意见由 review.claim_reviews 记录。"
+        },
+        "is_core": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "claim_id",
+        "field_path",
+        "target_id",
+        "reason",
+        "evidence_ids",
+        "missing_evidence_queries",
+        "conflicting_evidence_ids",
+        "support_status",
+        "is_core"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "support_status": {
+                "const": "supported"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "case_requirement": {
+      "type": "object",
+      "properties": {
+        "case_requirement_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "enum": [
+            "initial_query",
+            "clarified_later",
+            "new_later",
+            "unknown"
+          ]
+        },
+        "is_core": {
+          "type": "boolean"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "historical_requirement_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "case_requirement_id",
+        "text",
+        "origin",
+        "is_core",
+        "evidence_ids",
+        "historical_requirement_id"
+      ],
+      "additionalProperties": false
+    },
+    "assessment_target": {
+      "type": "object",
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "core_requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "noncore_requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "boundary_status": {
+          "enum": [
+            "confirmed",
+            "needs_review",
+            "unknown"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "target_id",
+        "goal",
+        "core_requirement_ids",
+        "noncore_requirement_ids",
+        "boundary_status",
+        "claim_ids"
+      ],
+      "additionalProperties": false
+    },
+    "assessment": {
+      "type": "object",
+      "properties": {
+        "assessment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gates": {
+          "type": "object",
+          "properties": {
+            "goal_observable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "agent_behavior_observable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "outcome_observable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "evidence_sufficient": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "goal_observable",
+            "agent_behavior_observable",
+            "outcome_observable",
+            "evidence_sufficient"
+          ],
+          "additionalProperties": false
+        },
+        "episode_integrity": {
+          "enum": [
+            "complete",
+            "partial",
+            "broken",
+            "unknown"
+          ]
+        },
+        "evidence_status": {
+          "enum": [
+            "sufficient",
+            "partial",
+            "insufficient",
+            "unknown"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "unresolved_core_conflict": {
+          "type": "boolean"
+        },
+        "noncore_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "assessment_id",
+        "target_id",
+        "gates",
+        "episode_integrity",
+        "evidence_status",
+        "claim_ids",
+        "unresolved_core_conflict",
+        "noncore_gaps"
+      ],
+      "additionalProperties": false
+    },
+    "mapping_choice": {
+      "type": "object",
+      "properties": {
+        "mapping_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_requirement_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "taxonomy_row": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "enum": [
+            null,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+            193,
+            194,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209,
+            210,
+            211,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217
+          ]
+        },
+        "parent_requirement_id": {
+          "enum": [
+            null,
+            "req_001",
+            "req_002",
+            "req_003",
+            "req_004",
+            "req_005",
+            "req_006",
+            "req_007",
+            "req_008",
+            "req_009",
+            "req_010",
+            "req_011",
+            "req_012",
+            "req_013",
+            "req_014",
+            "req_015",
+            "req_016",
+            "req_017",
+            "req_018",
+            "req_019",
+            "req_020",
+            "req_021",
+            "req_022",
+            "req_023",
+            "req_024",
+            "req_025",
+            "req_026",
+            "req_027",
+            "req_028",
+            "req_029",
+            "req_030",
+            "req_031",
+            "req_032",
+            "req_033",
+            "req_034",
+            "req_035",
+            "req_036"
+          ]
+        },
+        "mapping_status": {
+          "enum": [
+            "supported",
+            "partial",
+            "unresolved"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "requirement_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "readOnly": true,
+          "description": "程序依据冻结分类表或本案例要求回填，模型不生成。"
+        },
+        "subrequirement_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sub_[0-9]{3}$",
+          "readOnly": true,
+          "description": "程序依据冻结分类表或本案例要求回填，模型不生成。"
+        },
+        "subrequirement_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "readOnly": true,
+          "description": "程序依据冻结分类表或本案例要求回填，模型不生成。"
+        },
+        "case_requirement_text": {
+          "type": "string",
+          "minLength": 1,
+          "readOnly": true,
+          "description": "程序依据冻结分类表或本案例要求回填，模型不生成。"
+        },
+        "taxonomy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "readOnly": true,
+          "description": "程序依据冻结分类表或本案例要求回填，模型不生成。"
+        }
+      },
+      "required": [
+        "mapping_id",
+        "case_requirement_id",
+        "taxonomy_row",
+        "parent_requirement_id",
+        "mapping_status",
+        "claim_ids"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mapping_status": {
+                "const": "supported"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "taxonomy_row": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mapping_status": {
+                "const": "partial"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "taxonomy_row": {
+                "type": "null"
+              },
+              "parent_requirement_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mapping_status": {
+                "const": "unresolved"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "taxonomy_row": {
+                "type": "null"
+              },
+              "parent_requirement_id": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "difficulty_dimension": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            "unknown"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "level",
+        "claim_ids"
+      ],
+      "additionalProperties": false
+    },
+    "task_attributes": {
+      "type": "object",
+      "properties": {
+        "domain_primary": {
+          "enum": [
+            "化学",
+            "工科",
+            "数学",
+            "材料",
+            "物理",
+            "环境",
+            "生物",
+            "计算机",
+            "unknown"
+          ]
+        },
+        "domain_secondary": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "化学",
+              "工科",
+              "数学",
+              "材料",
+              "物理",
+              "环境",
+              "生物",
+              "计算机"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "work_object_primary": {
+          "enum": [
+            "文献与外部证据",
+            "科学问题",
+            "研究方案",
+            "环境",
+            "数据",
+            "代码",
+            "实验",
+            "论文",
+            null
+          ]
+        },
+        "work_object_secondary": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "文献与外部证据",
+              "科学问题",
+              "研究方案",
+              "环境",
+              "数据",
+              "代码",
+              "实验",
+              "论文"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "difficulty": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ]
+        },
+        "difficulty_dimensions": {
+          "type": "object",
+          "properties": {
+            "scientific_reasoning": {
+              "$ref": "common.schema.json#/$defs/difficulty_dimension"
+            },
+            "constraint_complexity": {
+              "$ref": "common.schema.json#/$defs/difficulty_dimension"
+            },
+            "workflow_dependencies": {
+              "$ref": "common.schema.json#/$defs/difficulty_dimension"
+            },
+            "environment_and_tools": {
+              "$ref": "common.schema.json#/$defs/difficulty_dimension"
+            },
+            "verification_burden": {
+              "$ref": "common.schema.json#/$defs/difficulty_dimension"
+            }
+          },
+          "required": [
+            "scientific_reasoning",
+            "constraint_complexity",
+            "workflow_dependencies",
+            "environment_and_tools",
+            "verification_burden"
+          ],
+          "additionalProperties": false
+        },
+        "difficulty_factors": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "cross_artifact",
+              "external_information_dependency",
+              "goal_evolution",
+              "long_horizon_state",
+              "multi_step",
+              "scientific_reasoning",
+              "tool_dependency",
+              "verification_burden"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "domain_primary",
+        "domain_secondary",
+        "work_object_primary",
+        "work_object_secondary",
+        "difficulty",
+        "difficulty_dimensions",
+        "difficulty_factors",
+        "claim_ids"
+      ],
+      "additionalProperties": false
+    },
+    "feedback": {
+      "type": "object",
+      "properties": {
+        "feedback_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "missing_initial_spec",
+            "model_correction",
+            "goal_change",
+            "natural_deepening",
+            "acknowledgement",
+            "uncertain"
+          ]
+        },
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "prior_output_evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "requirement_evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "feedback_id",
+        "type",
+        "evidence_id",
+        "target_requirement_ids",
+        "prior_output_evidence_ids",
+        "requirement_evidence_ids",
+        "claim_ids"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "model_correction"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "prior_output_evidence_ids": {
+                "minItems": 1
+              },
+              "requirement_evidence_ids": {
+                "minItems": 1
+              },
+              "target_requirement_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "failure": {
+      "type": "object",
+      "properties": {
+        "failure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "artifact_delivery_failure",
+            "constraint_loss",
+            "context_tracking_failure",
+            "error_recovery_failure",
+            "incomplete_execution",
+            "tool_misuse",
+            "unknown",
+            "verification_failure",
+            "wrong_assumption"
+          ]
+        },
+        "target_requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "failure_id",
+        "type",
+        "target_requirement_ids",
+        "claim_ids"
+      ],
+      "additionalProperties": false
+    },
+    "evidence_scope": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "enum": [
+            "complete_episode",
+            "indexed_retrieval"
+          ]
+        },
+        "full_episode_read": {
+          "type": "boolean"
+        },
+        "provided_event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "omitted_body_event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "retrieval_rounds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "feedback_scan_status": {
+          "enum": [
+            "complete",
+            "partial",
+            "not_assessed"
+          ]
+        },
+        "coverage_notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "strategy",
+        "full_episode_read",
+        "provided_event_ids",
+        "omitted_body_event_ids",
+        "retrieval_rounds",
+        "feedback_scan_status",
+        "coverage_notes"
+      ],
+      "additionalProperties": false
+    },
+    "claim_review": {
+      "type": "object",
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "support_status": {
+          "enum": [
+            "supported",
+            "partial",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "missing_evidence_queries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "claim_id",
+        "support_status",
+        "reason",
+        "evidence_ids",
+        "missing_evidence_queries"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "support_status": {
+                "const": "supported"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

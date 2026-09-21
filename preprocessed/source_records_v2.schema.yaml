@@ -1,0 +1,42 @@
+schema_document_version: "1.0"
+file:
+  name: workspace/datasets/{dataset_id}/batches/{batch_id}/01_preprocess/source_records/part-*.jsonl
+  format: jsonl
+  record_unit: source_record
+  description: 每条输入源记录仅保存一次；同一记录派生的规范化 Event projection 与 raw payload 共置。
+record:
+  type: object
+  required: [schema_version, dataset_id, batch_id, source_record_id, source_format,
+             source_locator, status, normalized_events]
+  fields:
+    schema_version: {type: string, example: v2.0}
+    dataset_id: {type: string}
+    batch_id: {type: string}
+    source_record_id: {type: string, description: 来源位置与记录内容共同生成的稳定 ID}
+    source_format: {type: string, examples: [collector_events, sls_proxy, session_jsonl]}
+    source_locator:
+      type: object
+      fields:
+        source_uri: {type: string}
+        source_file: {type: string}
+        source_member: {type: [string, "null"]}
+        record_index: {type: integer}
+    status: {type: enum, values: [normalized, rejected]}
+    payload: {type: [object, "null"], description: 深度脱敏后的原始 JSON 对象，只保存一次}
+    raw_text: {type: [string, "null"], description: 非法 JSON 时保存的脱敏文本}
+    normalized_events:
+      type: array
+      items:
+        type: object
+        fields:
+          projection_schema_version: {type: string}
+          event_id: {type: string}
+          event_type: {type: string}
+          data: {type: any, description: adapter 生成的脱敏规范化数据}
+          observed_identity: {type: object}
+          source_metadata: {type: object}
+          raw_json_pointer: {type: string, example: /payload}
+    error: {type: [string, "null"]}
+relationships:
+  event_lookup: {keys: [source_record_id, normalized_events.index]}
+  raw_lookup: {keys: [source_record_id, normalized_events.raw_json_pointer]}

@@ -1,0 +1,54 @@
+{
+  "version": "stage06-v1-draft",
+  "status": "draft_not_connected_to_runner",
+  "enabled": false,
+  "path_base": "this_config_directory",
+  "input_stage04": null,
+  "output_dir": null,
+  "model": {
+    "name": null,
+    "api_base_env": null,
+    "api_key_env": null,
+    "temperature": null,
+    "max_output_tokens": null
+  },
+  "execution": {
+    "workers": 1,
+    "resume": true,
+    "max_validation_retries": 2
+  },
+  "evidence": {
+    "direct_episode_max_characters": 200000,
+    "max_retrieval_rounds": 2,
+    "note": "Legacy v5 starting values; check actual assembled input against model window."
+  },
+  "rules": {
+    "taxonomy": "label_taxonomy.json",
+    "requirement_taxonomy": "requirement_taxonomy.csv",
+    "requirement_manifest": "requirement_taxonomy_manifest.json",
+    "aliases": "taxonomy_aliases.json",
+    "rubrics": "label_rubrics.yaml",
+    "label_prompt": "label_prompt.md",
+    "review_prompt": "review_prompt.md",
+    "evidence_policy": "evidence_policy.yaml",
+    "quality_policy": "quality_policy.json",
+    "selection_policy": "selection_policy.json",
+    "requirement_matching_policy": "requirement_matching_policy.json",
+    "work_object_audit": "work_object_mapping_audit.json"
+  },
+  "schemas": {
+    "input": "../schemas/input.schema.json",
+    "evidence": "../schemas/evidence.schema.json",
+    "model_output": "../schemas/model_output.schema.json",
+    "label": "../schemas/label.schema.json",
+    "review": "../schemas/review.schema.json",
+    "selection": "../schemas/selection.schema.json",
+    "run_manifest": "../schemas/run_manifest.schema.json"
+  },
+  "preflight": [
+    "Require non-null input/output/model settings before running.",
+    "Validate and freeze all rule/schema hashes.",
+    "Assemble rubric and taxonomy content into model input.",
+    "Connect deterministic checks and aggregation; enabled alone is not implementation."
+  ]
+}

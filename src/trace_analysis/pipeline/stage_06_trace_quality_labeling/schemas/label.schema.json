@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/label.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_output": {
+      "$ref": "model_output.schema.json"
+    },
+    "resolved_mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mapping_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "case_requirement_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "taxonomy_row": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 2
+          },
+          "requirement_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "subrequirement_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "mapping_status": {
+            "enum": [
+              "supported",
+              "partial",
+              "unresolved"
+            ]
+          },
+          "taxonomy_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "mapping_id",
+          "case_requirement_id",
+          "taxonomy_row",
+          "requirement_name",
+          "subrequirement_name",
+          "mapping_status",
+          "taxonomy_sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "quality_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "grade": {
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              "unknown"
+            ]
+          },
+          "rule_id": {
+            "enum": [
+              "Q1",
+              "Q2",
+              "Q3",
+              "Q4"
+            ]
+          }
+        },
+        "required": [
+          "assessment_id",
+          "grade",
+          "rule_id"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "validation_status": {
+      "const": "valid"
+    },
+    "review_record_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review_summary": {
+      "enum": [
+        "model_only",
+        "pending_review",
+        "human_verified",
+        "unresolved"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rubric_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "config_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "run_id",
+        "model",
+        "code_revision",
+        "rubric_version",
+        "schema_version",
+        "input_sha256",
+        "config_manifest_sha256",
+        "evidence_bundle_sha256"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "model_output",
+    "resolved_mappings",
+    "quality_results",
+    "validation_status",
+    "review_record_paths",
+    "review_summary",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

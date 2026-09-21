@@ -1,0 +1,209 @@
+{
+  "version": "stage06-v1-draft",
+  "source_file": "docs/科研全流程agent能力点分布 - 需求-子需求-原子能力映射（修订中）.csv",
+  "source_sha256": "4d2c91789c44b2921a862bae719aec785e6d16ceccf6b0256909e19a37e8c580",
+  "projection_file": "requirement_taxonomy.csv",
+  "projection_sha256": "96bd11c79ff7de9cb7d096fc84c1b8d72404244a8d2561498e2199001e8bfd4a",
+  "parent_count": 36,
+  "subrequirement_count": 216,
+  "parents": [
+    {
+      "requirement_id": "req_001",
+      "requirement_name": "文献调研",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_002",
+      "requirement_name": "问题定义",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_003",
+      "requirement_name": "资源估算",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_004",
+      "requirement_name": "实验设计",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_005",
+      "requirement_name": "环境配置",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_006",
+      "requirement_name": "资源获取",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_007",
+      "requirement_name": "数据解析",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_008",
+      "requirement_name": "数据预处理",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_009",
+      "requirement_name": "特征工程",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_010",
+      "requirement_name": "已有仓库代码理解",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_011",
+      "requirement_name": "代码框架设计",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_012",
+      "requirement_name": "算法组件实现",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_013",
+      "requirement_name": "代码更新管理",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_014",
+      "requirement_name": "代码测试",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_015",
+      "requirement_name": "方法评估",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_016",
+      "requirement_name": "实验配置",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_017",
+      "requirement_name": "任务执行调度",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_018",
+      "requirement_name": "任务管理监控",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_019",
+      "requirement_name": "实验状态诊断",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_020",
+      "requirement_name": "实验修复",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_021",
+      "requirement_name": "实验调优",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_022",
+      "requirement_name": "实验核验",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_023",
+      "requirement_name": "结果统计",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_024",
+      "requirement_name": "结果比较",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_025",
+      "requirement_name": "结果解释",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_026",
+      "requirement_name": "结果可视化",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_027",
+      "requirement_name": "规划论文结构",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_028",
+      "requirement_name": "撰写相关工作",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_029",
+      "requirement_name": "撰写方法实验章节",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_030",
+      "requirement_name": "编排图表",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_031",
+      "requirement_name": "论文修订",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_032",
+      "requirement_name": "回应审稿意见",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_033",
+      "requirement_name": "成果发布",
+      "matching_role": "primary_eligible"
+    },
+    {
+      "requirement_id": "req_034",
+      "requirement_name": "进度管理",
+      "matching_role": "auxiliary_only"
+    },
+    {
+      "requirement_id": "req_035",
+      "requirement_name": "连续性维护",
+      "matching_role": "auxiliary_only"
+    },
+    {
+      "requirement_id": "req_036",
+      "requirement_name": "风险管理",
+      "matching_role": "auxiliary_only"
+    }
+  ],
+  "id_scope": "internal taxonomy identifiers scoped to this frozen version; not original trace identifiers",
+  "taxonomy_row_semantics": "CSV parsed record number including header in original source, not physical line or projection line",
+  "work_object_normalization": {
+    "audit_file": "work_object_mapping_audit.json",
+    "allowed_values": [
+      "文献与外部证据",
+      "科学问题",
+      "研究方案",
+      "环境",
+      "数据",
+      "代码",
+      "实验",
+      "论文"
+    ],
+    "separator": "；",
+    "column": "source_work_object",
+    "meaning": "normalized candidate work objects; original values in audit only"
+  }
+}

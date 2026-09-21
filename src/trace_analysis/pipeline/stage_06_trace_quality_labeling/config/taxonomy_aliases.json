@@ -1,0 +1,11 @@
+{
+  "version": "stage06-v1-draft",
+  "work_object_candidates": {},
+  "require_semantic_review": [],
+  "rules": [
+    "The projection already uses eight normalized objects; do not apply legacy string aliases again.",
+    "Select Trace objects from actual evidence, not all objects listed for a broad taxonomy entry.",
+    "Original source values are preserved only in the audit file; the source CSV is unchanged."
+  ],
+  "normalized_mapping_file": "work_object_mapping_audit.json"
+}

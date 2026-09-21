@@ -50,11 +50,22 @@ def test_publish_capability_site_builds_self_contained_snapshot(tmp_path: Path):
     html = (output / "index.html").read_text(encoding="utf-8")
     javascript = (output / "app.js").read_text(encoding="utf-8")
     assert "能力分布" in html
+    assert "痛点分析" in html
+    assert 'id="pain-batch-filter"' in html
+    assert "全部批次" in html
+    assert 'id="pain-harness-filter"' in html
+    assert "全部 Harness" in html
     assert "能力森林" not in html
     assert "能力关系图" in html
     assert "d3.forceSimulation" in javascript
     assert "d3.forceLink" in javascript
     assert "d3.drag" in javascript
+    assert '$("pain-batch-filter").value' in javascript
+    assert "item.batch_id === batch" in javascript
+    assert 'fillPainSelect("pain-batch-filter"' in javascript
+    assert '$("pain-harness-filter").value' in javascript
+    assert "(item.harnesses || []).includes(harness)" in javascript
+    assert 'fillPainSelect("pain-harness-filter"' in javascript
     assert 'class="id-row"' in javascript
     cases = json.loads((output / "data/cases/cap_leaf.json").read_text())
     assert cases[0]["user_query"] == ["请检查数据集是否完整"]

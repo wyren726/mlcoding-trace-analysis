@@ -1,0 +1,33 @@
+schema_document_version: "1.0"
+file:
+  name: workspace/datasets/{dataset_id}/batches/{batch_id}/01_preprocess/unified_traces/part-*.jsonl
+  format: jsonl
+  record_unit: trace
+  description: 紧凑 Trace 索引；Turn 通过 turn_refs 关联，未归属 Event 仍保留 source_ref。
+record:
+  type: object
+  required: [schema_version, dataset_id, batch_id, trace_id, sessions, lineage]
+  fields:
+    schema_version: {type: string, example: v2.0}
+    dataset_id: {type: string}
+    batch_id: {type: string}
+    trace_id: {type: string}
+    sessions:
+      type: array
+      items:
+        type: object
+        fields:
+          session_id: {type: string}
+          harness: {type: string}
+          turn_refs:
+            type: array
+            items:
+              type: object
+              fields:
+                turn_id: {type: string}
+                turn_index: {type: integer}
+                status: {type: string}
+          unassigned_events:
+            type: array
+            items: {reference: unified_turns_v2.schema.yaml#/record/fields/events/items}
+    lineage: {type: object}
