@@ -1,0 +1,27 @@
+version: stage06-v1-draft
+boundary_source: historical_stage04.episode_boundary
+boundary_fallback: error_or_review_never_infer_from_min_max_evidence_ids
+strategies:
+- complete_episode
+- indexed_retrieval
+required_coverage:
+- core_goal
+- core_constraints
+- relevant_user_feedback
+- agent_actions
+- results_and_error_followup
+- mapping_source_requirements
+retrieval:
+  record_selected_ids: true
+  record_omitted_bodies: true
+  record_rounds: true
+  supplement_on_missing_core_evidence: true
+  negative_claim_requires_relevant_followup_coverage: true
+post_episode_context: 既有交付物的后续反馈可用；不得倒推成 Episode 当时的新要求。
+quote_rules:
+- 连续原文，不能拼接改写
+- 角色按消息实际语义判断
+- 引用事件必须存在且实际提供给标注者
+- 保存规范化事件与原始文件位置映射
+- 源ID与内部ID分开，缺失源ID用null
+insufficient_evidence_action: null_or_unknown_with_missing_evidence_queries

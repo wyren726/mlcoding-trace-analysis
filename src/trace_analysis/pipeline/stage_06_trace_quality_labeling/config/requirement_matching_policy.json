@@ -1,0 +1,64 @@
+{
+  "version": "stage06-requirement-matching-v1",
+  "primary_eligible_requirement_ids": [
+    "req_001",
+    "req_002",
+    "req_003",
+    "req_004",
+    "req_005",
+    "req_006",
+    "req_007",
+    "req_008",
+    "req_009",
+    "req_010",
+    "req_011",
+    "req_012",
+    "req_013",
+    "req_014",
+    "req_015",
+    "req_016",
+    "req_017",
+    "req_018",
+    "req_019",
+    "req_020",
+    "req_021",
+    "req_022",
+    "req_023",
+    "req_024",
+    "req_025",
+    "req_026",
+    "req_027",
+    "req_028",
+    "req_029",
+    "req_030",
+    "req_031",
+    "req_032",
+    "req_033"
+  ],
+  "auxiliary_only_requirement_ids": [
+    "req_034",
+    "req_035",
+    "req_036"
+  ],
+  "minimum_primary_parent_matches": 1,
+  "qualifying_mapping_statuses": [
+    "supported",
+    "partial"
+  ],
+  "evidence_requirement": "The primary parent itself must be supported; a partial mapping means known parent, unknown child, not weak evidence.",
+  "auxiliary_rule": "Auxiliary labels may accompany a supported primary parent; never qualify a Trace alone.",
+  "no_primary_action": "retain annotations; matching_status=no_primary_match; do not export as eligible; never force a primary match",
+  "counting_unit": "unique parent requirement per Episode; local exports must belong to an eligible Episode",
+  "cardinality": {
+    "hard_parent_limit": null,
+    "hard_subrequirement_limit": null,
+    "review_threshold_proposal": {
+      "status": "proposal_not_enabled",
+      "enabled": false,
+      "unique_parent_count_gt": 5,
+      "unique_subrequirement_count_gt": 10,
+      "action": "review evidence and episode boundary, never truncate automatically"
+    }
+  },
+  "work_object_policy": "Split normalized source_work_object on ；. Multiple candidates require case-specific selection, never auto-union all candidates."
+}

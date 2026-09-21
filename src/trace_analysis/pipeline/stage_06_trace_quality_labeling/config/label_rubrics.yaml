@@ -1,0 +1,332 @@
+version: stage06-v1-draft
+status: draft_pending_calibration
+source_spec: docs/06阶段完整打标规范与筛选规则_20260917.md
+source_spec_sha256: 5fe06b76ad49c298a1553aa39d54d44adf067a1ea2ab4053a9fd69c03dabdcdc
+principles:
+- 固定同一 assessment_target 后判断目标、行为、结果；局部成功不代表整体闭合。
+- 需求点和子需求点必须分别输出并保留父子关系；原始用户要求不等于 taxonomy 分类。
+- 未知不等于否定；未取回不等于不存在；格式或引文错误是标注无效，不是 Trace low。
+- 领域、对象、阶段、难度、反馈、失败类别和依赖不直接加质量分。
+- 案例内需求分别评估证据质量，禁止复制 Episode high 给每条需求。
+- 除稳定枚举外，每个判断均须有 claim、理由及证据/缺失信息；禁止虚构引用。
+rubrics:
+  quality_gates:
+    rubric_id: stage06.quality_gates.v1
+    criteria:
+    - 标签: '`goal_observable`'
+      定义与粒度: 当前目标及关键约束是否可从证据辨认；Episode/具体需求
+      'true': 能引用用户任务和关键澄清，确定正在评价什么
+      'false': 已确认核心请求丢失或相互矛盾且无法恢复，无法建立目标
+      null/边界: 关键上下文尚未读到、目标指代尚不能解释
+      对筛选的影响: true 才具备 high 条件；其他情况不可通过整体高质量门
+    - 标签: '`agent_behavior_observable`'
+      定义与粒度: 与目标有关的实际响应、操作或产物行为是否可定位
+      'true': 有对应回复/工具记录/产物创建或修改事件，足以识别行为
+      'false': 已确认相关 Agent 响应或行为日志整体缺失，只有二手抱怨/概述
+      null/边界: 只有“我会运行”的计划或未取回的工具索引
+      对筛选的影响: 计划不代替实际行为；文本解释任务的实际回复本身可成立
+    - 标签: '`outcome_observable`'
+      定义与粒度: 同一核心目标或需求的完成、部分完成、失败或明确终止状态是否可核验
+      'true': 有对应测试/结果/验收/错误及其后续处置；对声称完成的关键范围有结果依据
+      'false': 原始结局记录已确定遗失/截断，必要结果无法恢复
+      null/边界: 仅助手自述“完成”、进程启动、对话结束、局部道歉，或最终状态尚未出现
+      对筛选的影响: 失败清楚可 true；运行中不自动 true；局部反馈不能代表全目标结果
+    - 标签: '`evidence_sufficient`'
+      定义与粒度: 证据是否足以支持固定评价对象的关键主张及已输出映射，关键矛盾是否解决
+      'true': 每项关键主张有支持且无未解决冲突；不要求每个可选属性都能判定
+      'false': 有关键主张依赖错误角色/越界证据或确认不存在的依据，且补证后仍无法成立
+      null/边界: 关键材料尚未取回或冲突仍待核验，不能稳定判断支持关系
+      对筛选的影响: 对关键主张补证；不能只凭模型给出理由就 true
+    design_status: earlier_trace_quality_proposal_pending_separate_review; not the confirmed per-label support status
+  episode_integrity:
+    rubric_id: stage06.episode_integrity.v1
+    criteria:
+    - 值: complete
+      Rubric: 目标边界明确，评价范围内关键上下文和响应连续，无已知截断
+      例子/边界: 完整记录了一次失败也可 complete；完整记录运行启动但没有后续结局，不等于 outcome=true
+      质量影响: high 的必要条件之一
+    - 值: partial
+      Rubric: 已知存在局部缺失，但核心目标/行为/结果仍可成立
+      例子/边界: 缺少非关键中间讨论，关键操作与结果保留
+      质量影响: 最多 medium，具体缺失要说明
+    - 值: broken
+      Rubric: 核心目标或关键响应被切断，任务链无法可靠建立
+      例子/边界: 原任务不见，只剩不带对象的“继续”；关键执行阶段记录丢失
+      质量影响: low，或先恢复数据再评
+    - 值: unknown
+      Rubric: 无法确定边界和连续性
+      例子/边界: 来源跨度/相邻 Episode 归属不明
+      质量影响: unknown，进入边界复核
+    design_status: earlier_trace_quality_proposal_pending_separate_review; not the confirmed per-label support status
+  evidence_status:
+    rubric_id: stage06.evidence_status.v1
+    criteria:
+    - 值: sufficient
+      Rubric: 所有核心主张有足够支持，输出的具体映射均有依据，无关键未解决矛盾
+      与 evidence_sufficient 的一致性: 必须 true
+    - 值: partial
+      Rubric: 仅部分主张可支持；可能有非核心缺口，或核心部分仍待补证
+      与 evidence_sufficient 的一致性: 核心已支持可 true；核心待补证为 null，需列明
+    - 值: insufficient
+      Rubric: 确认无法支持核心分析，且不是仅因一次检索没找到
+      与 evidence_sufficient 的一致性: 'false'
+    - 值: unknown
+      Rubric: 主张或证据范围尚不能评估
+      与 evidence_sufficient 的一致性: 'null'
+    design_status: earlier_trace_quality_proposal_pending_separate_review; not the confirmed per-label support status
+  domains:
+    rubric_id: stage06.domains.v1
+    criteria:
+    - 领域: 生物
+      判定依据: 生物系统、生命过程、生命科学对象
+      排除/边界: 医学应用只有研究对象确属此范围时归入，不机械兜底
+    - 领域: 化学
+      判定依据: 物质组成、结构、反应和化学性质
+      排除/边界: 使用化学数据但核心研究为算法时结合目标区分
+    - 领域: 环境
+      判定依据: 环境系统、污染、生态环境过程与治理
+      排除/边界: 安装 Python 环境不属于本领域
+    - 领域: 材料
+      判定依据: 材料结构、制备、性能与构效关系
+      排除/边界: 单纯使用某材料不是领域依据
+    - 领域: 计算机
+      判定依据: 算法、软件、计算系统、AI/ML 方法本身
+      排除/边界: 使用代码或模型分析其他学科数据不自动归入
+    - 领域: 数学
+      判定依据: 数学对象、证明、形式推导、理论方法
+      排除/边界: 套用现成统计方法不自动归数学
+    - 领域: 物理
+      判定依据: 物理系统、规律、机制和物理量
+      排除/边界: 工程应用需根据核心研究对象区分
+    - 领域: 工科
+      判定依据: 工程设计、系统实现、工艺与工程性能
+      排除/边界: 不用“包含技术内容”泛化覆盖所有领域
+  work_objects:
+    rubric_id: stage06.work_objects.v1
+    criteria:
+    - 对象: 文献与外部证据
+      定义/命中 Rubric: 检索、筛选、核验、比较外部文献、资料和事实依据
+      排除/边界例: 改自己论文格式不自动命中
+    - 对象: 科学问题
+      定义/命中 Rubric: 形成/澄清科学问题、假设、机制与可检验命题
+      排除/边界例: 设计操作步骤归研究方案
+    - 对象: 研究方案
+      定义/命中 Rubric: 方法选择、实验设计、对照变量、研究路线与分析计划
+      排除/边界例: 实际训练运行归实验
+    - 对象: 环境
+      定义/命中 Rubric: 配置/诊断依赖、容器、硬件软件资源和服务
+      排除/边界例: 只是在已有环境执行任务不命中
+    - 对象: 数据
+      定义/命中 Rubric: 获取、清洗、转换、标注、统计、展示数据
+      排除/边界例: 助手临时写脚本作为手段，不因此增加代码对象
+    - 对象: 代码
+      定义/命中 Rubric: 理解、实现、修改、调试或测试程序
+      排除/边界例: 对话出现命令并非充分依据
+    - 对象: 实验
+      定义/命中 Rubric: 训练、运行、评测、观测和复现实验，分析其结果
+      排除/边界例: 只讨论设计归研究方案；结果分析可同时涉及数据
+    - 对象: 论文
+      定义/命中 Rubric: 论文结构、论证、正文、表达、排版和投稿修改
+      排除/边界例: 普通项目文档不强行当成论文；无法归类保留说明
+  requirement_labels:
+    rubric_id: stage06.requirement_labels.v1
+    criteria:
+    - 标签: 需求点一级标签 `requirement_name`
+      定义: 用户 CSV 中 36 个父需求之一，例如“代码测试”“实验状态诊断”
+      Rubric: 有原始要求/目标证据支持该类活动；子需求已命中则父级由表唯一确定；只知父级时不猜子级
+      粒度: Episode 多选，逐映射关联具体需求与原文
+      筛选与质量关系: 父级范围筛选和去重案例覆盖；父标签成立不直接等于 Trace high
+    - 标签: 子需求点二级标签 `subrequirement_name`
+      定义: 指定父需求下 216 项中的某个具体活动，例如“编写单元测试”
+      Rubric: 符合该行定义、输入/预期输出和边界；引用用户要求及相关行为证据；不以 Agent 成功为命中前提
+      粒度: Episode 多选，保留所属父级与具体需求证据
+      筛选与质量关系: 精细筛选及对应需求级质量核验；不能用 Episode high 代替局部检查
+  difficulty_dimensions:
+    rubric_id: stage06.difficulty_dimensions.v1
+    criteria:
+    - 维度: scientific_reasoning：科学推理与方法选择
+      '0': 按指定规则操作，无方法选择/科学推理挑战
+      '1': 成熟方法、局部推导或常规适用性判断
+      '2': 需比较方法或竞争假设，结合数据论证选择
+      '3': 实质开放的方法/假设，需组合或调整方法，处理冲突证据并论证边界
+    - 维度: constraint_complexity：约束复杂度
+      '0': 无额外耦合约束，可直接核对
+      '1': 多项约束基本独立
+      '2': 多项约束相互影响，修改需联动检查
+      '3': 约束冲突或全局可行性问题，需权衡优先级或论证不可兼容
+    - 维度: workflow_dependencies：跨步骤与跨产物依赖
+      '0': 单个局部操作
+      '1': 短串行流程，产物传递直接
+      '2': 分支、多产物共享状态，修改影响多个下游
+      '3': 长链或多轮状态维护，涉及恢复、版本一致性与传播影响
+    - 维度: environment_and_tools：环境与工具依赖
+      '0': 无任务特定配置或工具协调挑战
+      '1': 已知环境、成熟工具、调用路径明确
+      '2': 多工具、版本或资源约束需协调与诊断
+      '3': 分布式/异构/状态复杂环境，需解决并发、故障恢复和跨组件一致性
+    - 维度: verification_burden：结果验证负担
+      '0': 可直接对照答案或简单规则
+      '1': 成熟测试或确定性指标能覆盖关键要求
+      '2': 多种验证、统计比较、重复实验或外部证据核验
+      '3': 无单一可靠判据，需在噪声/混杂/冲突下建立多层验证与结论边界
+  difficulty:
+    rubric_id: stage06.difficulty.v1
+    criteria:
+    - 值: low
+      整体 Rubric: 局部、明确、常规的操作；方法与验收路径直接
+      边界: 不因对话短而判 low
+    - 值: medium
+      整体 Rubric: 多步或多产物任务，但主要方法、依赖管理和检查路径成熟明确
+      边界: 多步骤不自动 high
+    - 值: high
+      整体 Rubric: 存在决定性挑战：开放科学推理/方法选择、复杂约束权衡、长期跨产物状态或高验证负担，需要任务级整合解决
+      边界: 单个工具难用、运行慢、某一维出现 3 均非自动充分条件
+    - 值: unknown
+      整体 Rubric: 关键任务内容不清楚，无法判断整体工作量与实质挑战
+      边界: 不按剩余已知维度强填
+  difficulty_factors:
+    rubric_id: stage06.difficulty_factors.v1
+    criteria:
+    - 因素: multi_step
+      命中条件: 用户目标需要有依赖关系的多个步骤
+      排除/边界: 多轮闲聊不算
+    - 因素: cross_artifact
+      命中条件: 多个产物需共享状态或保持一致
+      排除/边界: 多文件但彼此独立不充分
+    - 因素: tool_dependency
+      命中条件: 完成任务依赖工具或工具协调
+      排除/边界: 提及工具名不充分
+    - 因素: long_horizon_state
+      命中条件: 跨较长流程维护版本、进度或状态
+      排除/边界: 消息数量多不充分
+    - 因素: goal_evolution
+      命中条件: 需求存在有证据的演进
+      排除/边界: 单纯重复“继续”不充分
+    - 因素: scientific_reasoning
+      命中条件: 需要科学推导、假设判断或方法论证
+      排除/边界: 研究背景专业不充分
+    - 因素: verification_burden
+      命中条件: 结果可靠性需要实质验证工作
+      排除/边界: 只要求排版整齐不充分
+    - 因素: external_information_dependency
+      命中条件: 需要任务输入以外的事实、来源或数据
+      排除/边界: 引用一个背景术语不充分
+  failure_patterns:
+    rubric_id: stage06.failure_patterns.v1
+    criteria:
+    - 值: incomplete_execution
+      命中 Rubric: 已承诺/被要求的关键执行步骤未落实，原始记录足以核验
+      反例/边界: 对话结束、任务仍运行、被用户取消不自动构成
+    - 值: constraint_loss
+      命中 Rubric: 当时已有明确约束，执行或产物违反/遗漏它
+      反例/边界: 后来新增约束不追溯判错
+    - 值: wrong_assumption
+      命中 Rubric: 无依据假设被用于任务且有证据显示错误或不成立
+      反例/边界: 合理提出待检验假设不是失败
+    - 值: tool_misuse
+      命中 Rubric: 工具选择、参数或调用方式不符合明确任务/接口要求并导致偏差
+      反例/边界: 外部服务故障本身不算误用
+    - 值: error_recovery_failure
+      命中 Rubric: 已知错误后采取无效/错误恢复，或有明确恢复要求却未处理
+      反例/边界: 单次失败尚未尝试恢复不自动命中
+    - 值: context_tracking_failure
+      命中 Rubric: 丢失/混淆既有需求、对象或状态，导致处理错误
+      反例/边界: 单项约束遗漏可只标 constraint_loss，不强行叠加
+    - 值: verification_failure
+      命中 Rubric: 声称关键结果成立但必要核验缺失/错误，且可证实
+      反例/边界: 尚未进入验证阶段不自动命中
+    - 值: artifact_delivery_failure
+      命中 Rubric: 要求交付的文件/结果不可取得、交错版本或缺关键内容
+      反例/边界: 当前归档没有文件不证明当时未交付
+    - 值: unknown
+      命中 Rubric: 有支持失败存在的证据，但机制无法细分
+      反例/边界: 尚未发现失败时用 []，结合评估状态解释
+  feedback:
+    rubric_id: stage06.feedback.v1
+    criteria:
+    - 值: missing_initial_spec
+      Rubric: 首次补充影响执行但先前未给的信息
+      最小证据/边界: 前后上下文；不自动归咎用户或 Agent
+    - 值: model_correction
+      Rubric: 纠正已有输出相对当时已成立要求的具体偏差
+      最小证据/边界: 原要求、先前输出、纠错片段；用户指责不是客观失败的全部证据
+    - 值: goal_change
+      Rubric: 改变目标或实质范围
+      最小证据/边界: 改变前后的目标；必要时触发边界复核
+    - 值: natural_deepening
+      Rubric: 保持目标的正常深入、扩展或下一步
+      最小证据/边界: 与原目标的关系；不自动算返工
+    - 值: acknowledgement
+      Rubric: 对特定内容确认或认可
+      最小证据/边界: 明确认可对象；“好”“继续”不自动验收整个任务
+    - 值: uncertain
+      Rubric: 反馈存在，但作用或对象不清楚
+      最小证据/边界: 说明缺少什么上下文；不强分类型
+  review:
+    rubric_id: stage06.review.v1
+    criteria:
+    - 状态: unreviewed
+      定义: 标签已有或待产生，尚无复核记录
+      筛选影响: 可进入模型候选，不能称人工核验
+    - 状态: pending_review
+      定义: 已有明确复核任务未完成
+      筛选影响: 关键字段待复核时不能进入“已核验”导出
+    - 状态: accepted
+      定义: 复核者同意该标签及证据
+      筛选影响: 另看 reviewer_type=model/human；模型 accepted 不等于人工确认
+    - 状态: corrected
+      定义: 复核修正标签，保存前后值和理由
+      筛选影响: 用修正后的有效版本重新计算质量与筛选
+    - 状态: unresolved
+      定义: 分歧尚未解决
+      筛选影响: 关键主张 unresolved 不得通过已核验高质量门
+  label_evidence_support:
+    rubric_id: stage06.label_evidence_support.v1
+    definition: 原始记录是否足以支持某一条标签主张。
+    granularity: claim_id + field_path；每项需求/子需求映射分别核验
+    criteria:
+      supported: 引用支持该标签的关键含义，目标、角色、时间范围匹配，无未解决的关键反证。
+      partial: 只支持标签的一部分；明确哪些部分成立、哪些仍缺依据。
+      unsupported: 已检查的引用不支持该主张，或存在明确反证；说明错配或反证。
+      unknown: 关键记录尚未取回、不可见或无法判断，不能把未知当不支持。
+    use: 标签复核：接受、补证、修正或保留未决；不作为整个 Trace 质量等级或数值分数。
+    review_rules:
+    - 初标自述 supported 不代表已经 verify；复核记录标明 model/human、审核标签版本、claim_id 和理由。
+    - 模型漏看或误引时修正标签，不直接降低原始 Trace 质量。
+    - 不支持的需求映射不得进入已核验覆盖统计；待补证不代表案例永久排除。
+    - review.claim_reviews 必须覆盖 reviewed_claim_ids，且 ID 唯一；由程序做跨字段检查。
+mapping_rules:
+- 用户要求符合子需求定义、输入/预期输出及边界，不能根据关键词或助手自由选择的步骤命中。
+- 父子均确定用合法 taxonomy_row；只确定父级用冻结 parent_requirement_id，子级 null。
+- 父子都无法确定时保留 unresolved 及原因；不能强行填满两级。
+- 模型仅选分类键；正式结果父子名称由程序解析，保持原表名称。
+- Episode 对同一父/子需求覆盖各计一次；父级 partial 不进入子需求覆盖。
+- req_034–req_036只能辅助，必须有前33类中的至少一个父需求有证据支持；无主需求时不强行匹配。
+- source_work_object为八类标准对象的候选集合，中文分号分隔；具体Trace不得自动继承全部候选。
+- 不设需求数量硬上限；超过5个父需求或10个子需求的复核阈值只是待讨论建议，尚未启用。
+difficulty_boundary_examples:
+- 按指定公式计算可为科学推理0；论证统计检验适用性可为2；专业术语不自动为3。
+- 十项独立格式要求可为约束1；精度、资源与时限冲突且需整体权衡可为3。
+- 同一脚本重复多次不自动为流程3；修改数据联动模型和报告可为2。
+- 已配置GPU运行现成程序可为环境1；跨节点故障恢复可为3。
+- 语法检查可为验证1；跨种子统计比较可为2；不新增用户未要求的验证目标。
+difficulty_context_rules:
+- factor: goal_evolution
+  dimensions:
+  - constraint_complexity
+  - workflow_dependencies
+  - scientific_reasoning
+  rule: 目标变化导致约束重评、已有产物返工或状态同步时计入相应挑战；次数多或正常继续不自动升难度。
+  examples:
+  - 只改输出文件名通常无实质升难度
+  - 改训练数据划分并要求同步重跑全部对照，可能增加流程和验证难度
+- factor: external_information_dependency
+  dimensions:
+  - scientific_reasoning
+  - environment_and_tools
+  - verification_burden
+  rule: 寻找与核验多源信息、处理版本冲突或判断来源可靠性可增加难度；简单查一个已知值不自动高难度。
+  examples:
+  - 查已知软件文档中的参数默认值通常较低
+  - 跨文献核对实验条件并解释冲突，可能增加推理与验证难度
+difficulty_factors_status: retained_pending_user_discussion; factors explain dimensions, never add independent score

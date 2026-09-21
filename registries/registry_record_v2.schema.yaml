@@ -1,0 +1,21 @@
+schema_document_version: "1.0"
+title: Workspace immutable registry record v2
+description: workspace/registry 下 dataset、batch、run 和 product 的不可变 JSON 登记记录。
+type: object
+required: [registry_schema_version, kind, record_id, registered_at, record, artifacts]
+properties:
+  registry_schema_version: {type: string, example: "2.0"}
+  kind: {enum: [datasets, batches, runs, products]}
+  record_id: {type: string}
+  registered_at: {type: string, format: date-time}
+  record: {type: object}
+  artifacts:
+    type: array
+    items:
+      type: object
+      required: [logical_path, size_bytes, sha256, hash_status]
+      properties:
+        logical_path: {type: string}
+        size_bytes: {type: [integer, "null"]}
+        sha256: {type: [string, "null"]}
+        hash_status: {enum: [deferred, computed]}

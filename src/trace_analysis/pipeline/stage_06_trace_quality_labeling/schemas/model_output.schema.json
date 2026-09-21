@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/model_output.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessment_target": {
+      "$ref": "common.schema.json#/$defs/assessment_target"
+    },
+    "case_requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/case_requirement"
+      },
+      "minItems": 1
+    },
+    "task_attributes": {
+      "$ref": "common.schema.json#/$defs/task_attributes"
+    },
+    "capability_mapping": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/mapping_choice"
+      }
+    },
+    "episode_assessment": {
+      "$ref": "common.schema.json#/$defs/assessment"
+    },
+    "requirement_assessments": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/assessment"
+      }
+    },
+    "feedback_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/feedback"
+      }
+    },
+    "failure_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/failure"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/evidence_ref"
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/claim"
+      },
+      "minItems": 1
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "assessment_target",
+    "case_requirements",
+    "task_attributes",
+    "capability_mapping",
+    "episode_assessment",
+    "requirement_assessments",
+    "feedback_annotations",
+    "failure_annotations",
+    "evidence_refs",
+    "claims",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

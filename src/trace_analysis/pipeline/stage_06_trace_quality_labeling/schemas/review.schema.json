@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/review.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "label_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reviewer_type": {
+      "enum": [
+        "model",
+        "human"
+      ]
+    },
+    "reviewer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_claim_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "corrected",
+        "unresolved"
+      ]
+    },
+    "saw_proposed_label": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "corrections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "old_value": {},
+          "new_value": {},
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "field_path",
+          "old_value",
+          "new_value",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "resulting_label_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "claim_reviews": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/claim_review"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "review_id",
+    "case_id",
+    "label_sha256",
+    "reviewer_type",
+    "reviewer_id",
+    "review_time",
+    "reviewed_claim_ids",
+    "status",
+    "saw_proposed_label",
+    "reason",
+    "evidence_ids",
+    "corrections",
+    "resulting_label_sha256",
+    "claim_reviews"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "corrected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "corrections": {
+            "minItems": 1
+          },
+          "resulting_label_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "corrections": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

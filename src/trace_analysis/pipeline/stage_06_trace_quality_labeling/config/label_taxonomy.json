@@ -1,0 +1,121 @@
+{
+  "version": "stage06-v1-draft",
+  "domains": [
+    "化学",
+    "工科",
+    "数学",
+    "材料",
+    "物理",
+    "环境",
+    "生物",
+    "计算机"
+  ],
+  "work_objects": [
+    "文献与外部证据",
+    "科学问题",
+    "研究方案",
+    "环境",
+    "数据",
+    "代码",
+    "实验",
+    "论文"
+  ],
+  "difficulty": [
+    "low",
+    "medium",
+    "high",
+    "unknown"
+  ],
+  "difficulty_dimensions": [
+    "scientific_reasoning",
+    "constraint_complexity",
+    "workflow_dependencies",
+    "environment_and_tools",
+    "verification_burden"
+  ],
+  "difficulty_levels": [
+    0,
+    1,
+    2,
+    3,
+    "unknown"
+  ],
+  "difficulty_factors": [
+    "cross_artifact",
+    "external_information_dependency",
+    "goal_evolution",
+    "long_horizon_state",
+    "multi_step",
+    "scientific_reasoning",
+    "tool_dependency",
+    "verification_burden"
+  ],
+  "failure_patterns": [
+    "artifact_delivery_failure",
+    "constraint_loss",
+    "context_tracking_failure",
+    "error_recovery_failure",
+    "incomplete_execution",
+    "tool_misuse",
+    "unknown",
+    "verification_failure",
+    "wrong_assumption"
+  ],
+  "feedback_types": [
+    "missing_initial_spec",
+    "model_correction",
+    "goal_change",
+    "natural_deepening",
+    "acknowledgement",
+    "uncertain"
+  ],
+  "quality_gates": [
+    "goal_observable",
+    "agent_behavior_observable",
+    "outcome_observable",
+    "evidence_sufficient"
+  ],
+  "episode_integrity": [
+    "complete",
+    "partial",
+    "broken",
+    "unknown"
+  ],
+  "evidence_status": [
+    "sufficient",
+    "partial",
+    "insufficient",
+    "unknown"
+  ],
+  "quality_grades": [
+    "high",
+    "medium",
+    "low",
+    "unknown"
+  ],
+  "mapping_status": [
+    "supported",
+    "partial",
+    "unresolved"
+  ],
+  "review_status": [
+    "unreviewed",
+    "pending_review",
+    "accepted",
+    "corrected",
+    "unresolved"
+  ],
+  "source_roles": [
+    "user",
+    "assistant",
+    "tool",
+    "system",
+    "error"
+  ],
+  "label_evidence_support": [
+    "supported",
+    "partial",
+    "unsupported",
+    "unknown"
+  ]
+}

@@ -9,7 +9,7 @@ from typing import Any, Iterable
 
 
 REGISTRY_SCHEMA_VERSION = "1.0"
-KINDS = {"datasets", "feature-runs", "analysis-runs"}
+KINDS = {"datasets", "feature-runs", "analysis-runs", "pipeline-runs"}
 
 
 def project_root(start: Path | None = None) -> Path:

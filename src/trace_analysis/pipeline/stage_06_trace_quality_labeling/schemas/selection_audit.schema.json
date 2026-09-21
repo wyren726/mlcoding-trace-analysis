@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/selection_audit.schema.json",
+  "type": "object",
+  "description": "对既有标签/原文执行筛选规则的核验记录，不是新增语义标签。只记录实际核验项目。",
+  "properties": {
+    "audit_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "episode",
+        "case_requirement"
+      ]
+    },
+    "label_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reviewer_type": {
+      "enum": [
+        "human",
+        "model"
+      ]
+    },
+    "reviewer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rule_checks": {
+      "type": "object",
+      "properties": {
+        "S1": {
+          "$ref": "selection.schema.json#/properties/rule_checks/properties/S1"
+        },
+        "S2": {
+          "$ref": "selection.schema.json#/properties/rule_checks/properties/S2"
+        },
+        "S3": {
+          "$ref": "selection.schema.json#/properties/rule_checks/properties/S3"
+        },
+        "S4": {
+          "$ref": "selection.schema.json#/properties/rule_checks/properties/S4"
+        },
+        "S5": {
+          "$ref": "selection.schema.json#/properties/rule_checks/properties/S5"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "additional_evidence_refs": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/evidence_ref"},
+      "minItems": 1
+    },
+    "policy_migration": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "unchanged_rules_v2_to_v3"
+        },
+        "actor_type": {
+          "const": "program"
+        },
+        "migrated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_audit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_audit_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_audit_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preserved_rule_ids": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "method",
+        "actor_type",
+        "migrated_at",
+        "source_audit_id",
+        "source_audit_sha256",
+        "source_policy_sha256",
+        "source_audit_file",
+        "preserved_rule_ids"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "audit_id",
+    "case_id",
+    "assessment_id",
+    "mode",
+    "label_sha256",
+    "policy_sha256",
+    "reviewer_type",
+    "reviewer_id",
+    "review_time",
+    "rule_checks"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/selection_input.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessment_target": {
+      "$ref": "common.schema.json#/$defs/assessment_target"
+    },
+    "case_requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/case_requirement"
+      },
+      "minItems": 1
+    },
+    "task_attributes": {
+      "$ref": "common.schema.json#/$defs/task_attributes"
+    },
+    "capability_mapping": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/mapping_choice"
+      }
+    },
+    "episode_assessment": {
+      "$ref": "common.schema.json#/$defs/assessment"
+    },
+    "requirement_assessments": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/assessment"
+      }
+    },
+    "feedback_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/feedback"
+      }
+    },
+    "failure_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/failure"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/evidence_ref"
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/claim"
+      },
+      "minItems": 1
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review_view": {
+      "$ref": "label_view.schema.json",
+      "readOnly": true,
+      "description": "程序生成的中文审核展示，与现有标签/claim/原文逐项一致，模型不生成。"
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "assessment_target",
+    "case_requirements",
+    "task_attributes",
+    "capability_mapping",
+    "feedback_annotations",
+    "failure_annotations",
+    "evidence_refs",
+    "claims",
+    "limitations"
+  ],
+  "additionalProperties": false,
+  "description": "筛选输入：新版06已有语义字段，可直接传入此对象或正式label的model_output；不要求旧质量评估。"
+}

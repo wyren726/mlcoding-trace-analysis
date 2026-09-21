@@ -14,3 +14,19 @@ max_retries = 4
 # The provider quota is 100 RPM shared by all models and keys for this user.
 # Keep 10% headroom for retries and other callers.
 requests_per_minute = 90
+reasoning_effort = "low"
+max_completion_tokens = 8192
+
+[providers.ailab_direct]
+api_type = "openai_compatible"
+base_url = "http://s-20260104203038-22bhb-decode.ailab-evalservice.svc:4000/v1"
+api_key_env = "AILAB_DIRECT_API_KEY"
+default_model = "glm-5.2"
+allowed_models = ["glm-5.2"]
+timeout_seconds = 300
+max_retries = 0
+# The user quota is 100 RPM. Keep 10% headroom for retries and other callers;
+# concurrency is controlled independently by --workers.
+requests_per_minute = 90
+max_completion_tokens = 8192
+use_env_proxy = false

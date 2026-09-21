@@ -1,0 +1,124 @@
+{
+  "version": "stage06-v1-draft",
+  "status": "standalone_labeler_and_selector_implemented_legacy_runner_unchanged",
+  "path_base": "stage_06_trace_quality_labeling",
+  "files": [
+    {
+      "path": "config/README.md",
+      "sha256": "54e133c66aa6adb42a2e57d0d2cb0b855fbd8338def4e7bbd2bbe1a61bb5c1d9"
+    },
+    {
+      "path": "config/SELECTION_USAGE.md",
+      "sha256": "f9c18ae1681c3cb2d971bfac029c38fabcd45235a84f618786cc681bae455c26"
+    },
+    {
+      "path": "config/evidence_policy.yaml",
+      "sha256": "42cd9ba7bdc254c309018e3ce2331d2c694fcaeb8d4eeea0de9e3bcf50022c49"
+    },
+    {
+      "path": "config/label_prompt.md",
+      "sha256": "323f3f2f623e00da540fb89c28b4a640dfd8fd2cd36d44afcf892cb7a1b63c2b"
+    },
+    {
+      "path": "config/label_rubrics.yaml",
+      "sha256": "421aeaddcfdcea9e0d20a3e6b24adc38fee7e0e3ac3ea4e674bb4e8ac1edbf3e"
+    },
+    {
+      "path": "config/label_taxonomy.json",
+      "sha256": "539b2b0c3a88a5ab8738283c710556c69279ef0a6b05de7d83e6b8909e89ca55"
+    },
+    {
+      "path": "config/quality_policy.json",
+      "sha256": "05d338f8c886e628baef5ca32ca7e5eddd5d5304a08f309fe6e80928ef08c449"
+    },
+    {
+      "path": "config/requirement_matching_policy.json",
+      "sha256": "10361638e6c6055e0992cadb1e7e7935242455c9d1a81cb706410aa388517e20"
+    },
+    {
+      "path": "config/requirement_taxonomy.csv",
+      "sha256": "96bd11c79ff7de9cb7d096fc84c1b8d72404244a8d2561498e2199001e8bfd4a"
+    },
+    {
+      "path": "config/requirement_taxonomy_manifest.json",
+      "sha256": "1b38db5f4a45846000671235846ed241ac07bac2dc22e72f96b892c7fa924263"
+    },
+    {
+      "path": "config/review_prompt.md",
+      "sha256": "407ef5507d5bb8801a9091cde74d10a1ff82a864b967dde5d6d6cc29897f4756"
+    },
+    {
+      "path": "config/run_config.json",
+      "sha256": "6bf538661e31777bd493bb986725fdf0cd1c21eb2f9995352437dbae773376bf"
+    },
+    {
+      "path": "config/selection_label_prompt.md",
+      "sha256": "0bb22830cda4d2f67389283f0459dba5d36560d9c90cc896cad811522c2b71b0"
+    },
+    {
+      "path": "config/selection_policy.json",
+      "sha256": "ed30b85113868d335fda90aad9321caa62765423eb8db87f966ceb7e2690231f"
+    },
+    {
+      "path": "config/selection_review_prompt.md",
+      "sha256": "1b7207ecfb8610f5f4b1410c5151b0e39a40601dff16ba0d02da03064cb221d2"
+    },
+    {
+      "path": "config/taxonomy_aliases.json",
+      "sha256": "1fdd3c16325260d26ab55ab3c2410b67c515a9f1153417ef02d1251399c6d754"
+    },
+    {
+      "path": "config/work_object_mapping_audit.json",
+      "sha256": "aa46516902ac3a3d52bcf5f738c915bb77ea6dcaa3507abf02d8fde27b61098d"
+    },
+    {
+      "path": "schemas/README.md",
+      "sha256": "06e61bd6a36fa73f9cd55cb74e9ee438702948f6ff20302f5439aa7df65b20ab"
+    },
+    {
+      "path": "schemas/common.schema.json",
+      "sha256": "ed2df6a13147576c400e1e5c56277604e1db16d9b1772f1232e5e3f8e95aa15f"
+    },
+    {
+      "path": "schemas/evidence.schema.json",
+      "sha256": "5ba075472d34e2ee8ebc29aa2447495756cc7178c026a8109f8e83ccffe6271b"
+    },
+    {
+      "path": "schemas/input.schema.json",
+      "sha256": "d9a2832dead62db473d74298e07d987570e42e49bee47c838d37ef4e53a87c67"
+    },
+    {
+      "path": "schemas/label.schema.json",
+      "sha256": "1ab37973cd8b32bf1ae59579b7a65ec729992881e0a1e343d4d804af5095e783"
+    },
+    {
+      "path": "schemas/label_view.schema.json",
+      "sha256": "6b0a2d2d2f2a7d2282cf281eafc7fa3e8532507b35c95ee60e06eeef3d735a03"
+    },
+    {
+      "path": "schemas/model_output.schema.json",
+      "sha256": "c4b48e3e82fd5a5a73b88cd085eb8d71819f2ac0e907e2eede8f12454948ac01"
+    },
+    {
+      "path": "schemas/review.schema.json",
+      "sha256": "9a3be0b9fd966f6bd97583595d192c02061423146516d13179b2e4d9d7a93e85"
+    },
+    {
+      "path": "schemas/run_manifest.schema.json",
+      "sha256": "2b2dcf4e08e422e633956ca02400fd0bccbae5ac07b0168888c22365d3e72c53"
+    },
+    {
+      "path": "schemas/selection.schema.json",
+      "sha256": "20630c9229b0880e40855d69627fc6a10ff275c315132758727665c020a3eaff"
+    },
+    {
+      "path": "schemas/selection_audit.schema.json",
+      "sha256": "6b039f8c761e06a55fbda703d5554b1611c29f20e9002f35d4a3e7e9ff88dc2d"
+    },
+    {
+      "path": "schemas/selection_input.schema.json",
+      "sha256": "9b013163737ca1ccf2174e600884a36ad77172838e65245b5f0d3114c63f8769"
+    }
+  ],
+  "snapshot_date": "2026-09-21"
+}

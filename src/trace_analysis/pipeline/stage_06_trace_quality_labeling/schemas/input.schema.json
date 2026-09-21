@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/input.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_ids": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "trace_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "turn_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "session_id",
+        "trace_id",
+        "turn_id",
+        "event_id"
+      ],
+      "additionalProperties": false
+    },
+    "historical_stage04": {
+      "type": "object"
+    },
+    "episode_boundary": {
+      "type": "object",
+      "properties": {
+        "start_turn_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "end_turn_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "post_episode_context_turn_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "start_turn_id",
+        "end_turn_id",
+        "post_episode_context_turn_id"
+      ],
+      "additionalProperties": false
+    },
+    "source_result": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "line_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "line_number",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "evidence_bundle_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_bundle_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "requirement_taxonomy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "trace_id",
+    "episode_id",
+    "source_ids",
+    "historical_stage04",
+    "episode_boundary",
+    "source_result",
+    "evidence_bundle_path",
+    "evidence_bundle_sha256",
+    "requirement_taxonomy_sha256"
+  ],
+  "additionalProperties": false
+}

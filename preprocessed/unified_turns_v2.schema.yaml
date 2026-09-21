@@ -1,0 +1,55 @@
+schema_document_version: "1.0"
+file:
+  name: workspace/datasets/{dataset_id}/batches/{batch_id}/01_preprocess/unified_turns/part-*.jsonl
+  format: jsonl
+  record_unit: turn
+  description: 不复制 Event data/raw；通过 source_ref 解析 source_records 中的 projection。
+record:
+  type: object
+  required: [schema_version, dataset_id, batch_id, trace_id, session_id, turn_id,
+             turn_index, status, execution_context, events, lineage]
+  fields:
+    schema_version: {type: string, example: v2.0}
+    dataset_id: {type: string}
+    batch_id: {type: string}
+    trace_id: {type: string}
+    session_id: {type: string}
+    turn_id: {type: string}
+    turn_index: {type: integer}
+    status: {type: enum, values: [completed, aborted, interrupted, incomplete]}
+    execution_context:
+      type: object
+      fields:
+        harness: {type: object, fields: {name: {type: string}, version: {type: [string, "null"]}}}
+        model_calls: {type: array, items: {type: object}}
+        tools: {type: array, items: {type: string}}
+        permissions: {type: [object, "null"]}
+        context_policy: {type: [object, "null"]}
+        metadata_coverage: {type: object}
+    events:
+      type: array
+      items:
+        type: object
+        required: [event_id, type, source_ref]
+        fields:
+          schema_version: {type: string}
+          dataset_id: {type: string}
+          batch_id: {type: string}
+          event_id: {type: string}
+          session_id: {type: string}
+          trace_id: {type: string}
+          turn_id: {type: [string, "null"]}
+          sequence: {type: [integer, "null"]}
+          timestamp: {type: [string, "null"]}
+          type: {type: string}
+          source_ref:
+            type: object
+            required: [source_record_id, json_pointer]
+            fields:
+              source_record_id: {type: string}
+              json_pointer: {type: string, example: /normalized_events/0}
+    lineage:
+      type: object
+      fields:
+        source_record_ids: {type: array, items: {type: string}}
+        legacy_schema_version: {type: [string, "null"]}

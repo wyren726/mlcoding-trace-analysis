@@ -1,0 +1,232 @@
+{
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": "inline-label-review-v2"
+    },
+    "description": {
+      "type": "string"
+    },
+    "source_label_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "assessment_target": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "case_requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "task_attributes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "requirement_mappings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "feedback_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "failure_annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "description",
+    "source_label_sha256",
+    "assessment_target",
+    "case_requirements",
+    "task_attributes",
+    "requirement_mappings",
+    "feedback_annotations",
+    "failure_annotations",
+    "limitations"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/label_view.schema.json",
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "source_role": {
+          "enum": [
+            "user",
+            "assistant",
+            "tool",
+            "system",
+            "error"
+          ]
+        },
+        "quote": {
+          "type": "string"
+        },
+        "episode_membership": {
+          "enum": [
+            "episode",
+            "prior_context",
+            "post_episode_context"
+          ]
+        },
+        "locator": {
+          "$ref": "common.schema.json#/$defs/source_locator"
+        },
+        "evidence_id": {
+          "type": "string"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "turn_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_role",
+        "quote",
+        "episode_membership",
+        "locator",
+        "evidence_id",
+        "event_id",
+        "turn_id"
+      ],
+      "additionalProperties": false
+    },
+    "claim": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string"
+        },
+        "support_status": {
+          "enum": [
+            "supported",
+            "partial",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "missing_evidence_queries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "conflicting_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "claim_id": {
+          "type": "string"
+        },
+        "field_path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "support_status",
+        "evidence",
+        "missing_evidence_queries",
+        "conflicting_evidence",
+        "claim_id",
+        "field_path"
+      ],
+      "additionalProperties": false
+    },
+    "supplement": {
+      "type": "object",
+      "properties": {
+        "purpose": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "purpose",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "properties": {
+        "label_name": {
+          "type": "string"
+        },
+        "value": {},
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          }
+        },
+        "supplemental_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/supplement"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "field_path": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label_name",
+        "value",
+        "claims",
+        "supplemental_evidence",
+        "notes",
+        "field_path",
+        "target_id"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

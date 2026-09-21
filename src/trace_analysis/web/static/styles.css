@@ -18,7 +18,7 @@ body {
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 button { color: inherit; }
 .site-header, .primary-nav, main { width: min(1440px, calc(100% - 40px)); margin-inline: auto; }
 .site-header {
@@ -196,10 +196,107 @@ main { padding: 22px 0 56px; }
 .empty-detail { color: var(--muted); padding: 26px 8px; }
 .error { color: var(--danger); }
 
+.pain-intro { max-width: 900px; }
+.pain-summary { padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.report-note {
+  margin: 16px 0 20px;
+  padding: 12px 15px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.pain-model-overview { margin: 0 0 20px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+.table-scroll table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.table-scroll th, .table-scroll td { padding: 9px 12px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.table-scroll th { color: var(--muted); font-weight: 500; background: var(--surface-soft); }
+.table-scroll tbody tr:last-child td { border-bottom: 0; }
+.pain-controls {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.6fr) repeat(7, minmax(120px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.pain-controls label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; }
+.pain-controls input, .pain-controls select {
+  min-width: 0;
+  width: 100%;
+  min-height: 41px;
+  padding: 9px 11px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.pain-controls input:focus, .pain-controls select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.pain-workspace { display: grid; grid-template-columns: minmax(330px, .82fr) minmax(520px, 1.18fr); gap: 16px; }
+.pain-list-panel, .pain-detail { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.pain-list-panel { padding: 16px; }
+.pain-detail { padding: 22px; align-self: start; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+.pain-list { display: grid; gap: 9px; }
+.pain-case-card {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  text-align: left;
+  background: var(--surface);
+  border-color: var(--border);
+}
+.pain-case-card:hover, .pain-case-card[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.pain-card-top, .pain-card-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 11px; }
+.pain-card-summary { color: var(--muted); font-size: 12px; line-height: 1.55; }
+.pain-card-gaps { display: flex; flex-wrap: wrap; gap: 5px; }
+.pain-card-gaps span { padding: 3px 7px; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 10px; }
+.pain-badge { display: inline-flex; width: fit-content; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.pain-badge.confirmed { color: light-dark(#7f2f23, #ffc2b6); background: light-dark(#f6ded9, #4a2924); }
+.pain-badge.review { color: light-dark(#785b14, #ffe39a); background: light-dark(#f5ebc9, #463b20); }
+.pain-badge.excluded { color: var(--muted); background: var(--surface-soft); }
+.pain-detail-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+.pain-detail-heading h2 { margin-bottom: 6px; font-size: 23px; }
+.pain-lead { padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); line-height: 1.65; }
+.pain-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--border); background: var(--border); }
+.pain-facts span { display: grid; gap: 5px; padding: 11px; background: var(--surface); }
+.pain-facts small { color: var(--muted); font-size: 10px; }
+.pain-facts strong { overflow-wrap: anywhere; font-size: 12px; font-weight: 600; }
+.pain-detail-section { padding: 18px 0 2px; border-top: 1px solid var(--border); }
+.pain-detail-section:first-of-type { border-top: 0; }
+.pain-detail-section h3 { margin-bottom: 12px; font-size: 15px; }
+.pain-detail-section h4 { margin: 14px 0 6px; font-size: 13px; }
+.pain-detail-section p { line-height: 1.7; }
+.pain-requirement { padding: 10px 12px; margin-top: 8px; background: var(--surface-soft); }
+.pain-requirement p { margin-bottom: 7px; }
+.pain-gap-detail { padding: 12px 14px; margin-top: 9px; border: 1px solid var(--border); border-radius: 7px; }
+.pain-evidence { margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--surface-soft); }
+.pain-evidence-kind { margin-bottom: 5px; color: var(--muted); font-size: 11px; }
+.pain-evidence blockquote { margin: 0; white-space: pre-wrap; line-height: 1.65; }
+.benchmark-note { color: var(--accent); }
+.privacy-note { margin: 18px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.human-review-panel { color: inherit; }
+.review-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 14px; border: 1px solid var(--border); background: var(--border); }
+.review-comparison span { display: grid; gap: 5px; padding: 11px; background: var(--surface); }
+.review-comparison small { color: var(--muted); font-size: 10px; }
+.review-comparison strong { font-size: 12px; }
+#pain-review-form { display: grid; gap: 12px; }
+#pain-review-form label { display: grid; gap: 6px; color: var(--muted); font-size: 11px; }
+#pain-review-form select, #pain-review-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); font: inherit; }
+#pain-review-form select { min-height: 40px; padding: 0 10px; }
+#pain-review-form textarea { min-height: 92px; padding: 10px; resize: vertical; line-height: 1.6; }
+.review-actions { display: flex; align-items: center; gap: 12px; }
+.review-actions button { flex: 0 0 auto; }
+.review-actions span { font-size: 11px; line-height: 1.5; }
+.review-sign-in { display: inline-flex; align-items: center; justify-content: center; width: fit-content; text-decoration: none; }
+
 @media (max-width: 860px) {
   .site-header, .primary-nav, main { width: min(100% - 24px, 760px); }
   .workspace { grid-template-columns: 1fr; }
   .detail { position: static; }
+  .pain-controls { grid-template-columns: 1fr 1fr; }
+  .pain-search-label { grid-column: 1 / -1; }
+  .pain-workspace { grid-template-columns: 1fr; }
+  .pain-detail { position: static; max-height: none; }
 }
 @media (max-width: 520px) {
   .site-header { align-items: flex-start; padding-top: 24px; }
@@ -211,4 +308,20 @@ main { padding: 22px 0 56px; }
   .tree ul { padding-left: 12px; }
   .capability-plot { min-height: 400px; }
   .capability-plot svg { height: 440px; }
+  .pain-controls { grid-template-columns: 1fr; }
+  .pain-search-label { grid-column: auto; }
+  .pain-facts { grid-template-columns: 1fr 1fr; }
+  .review-comparison { grid-template-columns: 1fr; }
+  .review-actions { align-items: stretch; flex-direction: column; }
 }
+.transcript-turn { margin: .8rem 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.02); }
+.transcript-turn > summary { cursor: pointer; display: grid; grid-template-columns: auto minmax(0,1fr); gap: .8rem; padding: .9rem 1rem; align-items: baseline; }
+.transcript-turn > summary > span:first-child { font-weight: 700; white-space: nowrap; }
+.transcript-user-preview { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.transcript-user, .transcript-event { padding: 1rem; border-top: 1px solid var(--border); }
+.transcript-user { background: rgba(93,135,255,.08); }
+.transcript-event-meta { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .65rem; }
+.transcript-event-meta code { color: var(--muted); font-size: .75rem; }
+.transcript-event pre, .transcript-user pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; line-height: 1.65; }
+.transcript-tool { background: rgba(255,184,77,.05); }
+.transcript-error { background: rgba(255,90,90,.08); }

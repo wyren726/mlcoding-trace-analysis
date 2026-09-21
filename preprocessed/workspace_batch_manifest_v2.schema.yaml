@@ -1,0 +1,37 @@
+schema_document_version: "1.0"
+file:
+  name: workspace/datasets/{dataset_id}/batches/{batch_id}/batch_manifest.json
+  format: json
+  record_unit: preprocess_batch
+record:
+  type: object
+  required: [manifest_schema_version, preprocessor_version, created_at, dataset_id, batch_id,
+             run_id, status, source_fingerprint, legacy_batch_path, products]
+  fields:
+    manifest_schema_version: {type: string, example: "2.0"}
+    preprocessor_version: {type: string}
+    created_at: {type: datetime, format: ISO-8601}
+    dataset_id: {type: string}
+    batch_id: {type: string}
+    run_id: {type: string}
+    status: {type: enum, values: [success, partial]}
+    source_fingerprint: {type: string}
+    sources: {type: array, items: {type: string}}
+    adapter: {type: string}
+    limit: {type: [integer, "null"]}
+    legacy_batch_path: {type: string}
+    source_record_count: {type: integer}
+    rejected_record_count: {type: integer}
+    event_count: {type: integer}
+    turn_event_count: {type: integer}
+    trace_count: {type: integer}
+    products:
+      type: map
+      key: product_id
+      value:
+        type: object
+        fields:
+          version: {type: string}
+          record_count: {type: integer}
+          parts: {type: array, items: {type: string}}
+          size_bytes: {type: integer}

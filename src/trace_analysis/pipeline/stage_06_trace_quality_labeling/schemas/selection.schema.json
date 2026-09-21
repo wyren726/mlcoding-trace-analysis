@@ -1,0 +1,658 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/selection.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "selection_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "本次筛选对象 ID，必须关联已有 Episode/需求范围；不表示旧局部质量等级。"
+    },
+    "mode": {
+      "enum": [
+        "episode",
+        "case_requirement"
+      ]
+    },
+    "label_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision": {
+      "enum": [
+        "priority_candidate",
+        "review",
+        "not_selected"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "duplicate_of": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "source_session_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "source_session_path": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "primary_requirement_ids": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "req_001",
+          "req_002",
+          "req_003",
+          "req_004",
+          "req_005",
+          "req_006",
+          "req_007",
+          "req_008",
+          "req_009",
+          "req_010",
+          "req_011",
+          "req_012",
+          "req_013",
+          "req_014",
+          "req_015",
+          "req_016",
+          "req_017",
+          "req_018",
+          "req_019",
+          "req_020",
+          "req_021",
+          "req_022",
+          "req_023",
+          "req_024",
+          "req_025",
+          "req_026",
+          "req_027",
+          "req_028",
+          "req_029",
+          "req_030",
+          "req_031",
+          "req_032",
+          "req_033"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "auxiliary_requirement_ids": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "req_034",
+          "req_035",
+          "req_036"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "policy_version": {
+      "enum": [
+        "stage06-selection-v2",
+        "stage06-selection-v3"
+      ]
+    },
+    "rule_checks": {
+      "type": "object",
+      "properties": {
+        "S1": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "pending",
+                "fail"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "claim_ids",
+            "evidence_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "pass",
+                      "fail"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "S2": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "pending",
+                "fail"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "claim_ids",
+            "evidence_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "pass",
+                      "fail"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "S3": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "pending",
+                "fail"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "claim_ids",
+            "evidence_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "pass",
+                      "fail"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "S4": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "pending",
+                "fail"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "claim_ids",
+            "evidence_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "pass",
+                      "fail"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "S5": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "pass",
+                "pending",
+                "fail"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "claim_ids",
+            "evidence_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "pass",
+                      "fail"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "additionalProperties": false,
+      "description": "键为 rule_id；这是筛选执行记录，不是新增任务属性标签。"
+    },
+    "prechecks": {
+      "type": "object",
+      "properties": {
+        "valid_label_and_references": {
+          "enum": [
+            "pass",
+            "pending",
+            "fail"
+          ]
+        },
+        "scope_match": {
+          "enum": [
+            "pass",
+            "pending",
+            "fail"
+          ]
+        },
+        "no_selection_critical_unresolved_conflict": {
+          "enum": [
+            "pass",
+            "pending",
+            "fail"
+          ]
+        }
+      },
+      "required": [
+        "valid_label_and_references",
+        "scope_match",
+        "no_selection_critical_unresolved_conflict"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "reviewer_type": {
+          "enum": [
+            "model",
+            "human",
+            "program"
+          ]
+        },
+        "reviewer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "review_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "reviewer_type",
+        "reviewer_id",
+        "evaluated_at",
+        "review_ids"
+      ],
+      "additionalProperties": false,
+      "description": "最终分流由程序执行；review_ids 指向实际提供的模型/人工核验记录，程序不得自称人工。"
+    }
+  },
+  "required": [
+    "schema_version",
+    "selection_run_id",
+    "case_id",
+    "assessment_id",
+    "mode",
+    "label_sha256",
+    "policy_sha256",
+    "decision",
+    "reason_codes",
+    "reason",
+    "duplicate_of",
+    "source_session_id",
+    "source_session_path",
+    "primary_requirement_ids",
+    "auxiliary_requirement_ids",
+    "policy_version",
+    "rule_checks",
+    "prechecks",
+    "evaluation"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "priority_candidate"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primary_requirement_ids": {
+            "minItems": 1
+          },
+          "rule_checks": {
+            "properties": {
+              "S1": {
+                "properties": {
+                  "status": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "S2": {
+                "properties": {
+                  "status": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "S3": {
+                "properties": {
+                  "status": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "S4": {
+                "properties": {
+                  "status": {
+                    "const": "pass"
+                  }
+                }
+              }
+            }
+          },
+          "prechecks": {
+            "properties": {
+              "valid_label_and_references": {
+                "const": "pass"
+              },
+              "scope_match": {
+                "const": "pass"
+              },
+              "no_selection_critical_unresolved_conflict": {
+                "const": "pass"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy_version": {
+            "const": "stage06-selection-v2"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rule_checks": {
+            "required": [
+              "S5"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "rule_checks": {
+            "not": {
+              "required": [
+                "S5"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy_version": {
+            "const": "stage06-selection-v2"
+          },
+          "decision": {
+            "const": "priority_candidate"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rule_checks": {
+            "properties": {
+              "S5": {
+                "properties": {
+                  "status": {
+                    "const": "pass"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

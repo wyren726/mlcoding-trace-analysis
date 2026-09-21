@@ -1,0 +1,2884 @@
+{
+  "version": "stage06-work-object-normalization-v1",
+  "allowed_work_objects": [
+    "文献与外部证据",
+    "科学问题",
+    "研究方案",
+    "环境",
+    "数据",
+    "代码",
+    "实验",
+    "论文"
+  ],
+  "multi_value_separator": "；",
+  "semantics": "Taxonomy-level candidate objects, not automatic Trace labels; choose only objects supported by case evidence.",
+  "mappings": [
+    {
+      "taxonomy_row": 2,
+      "requirement_id": "req_001",
+      "subrequirement_name": "制定文献调研协议",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 3,
+      "requirement_id": "req_001",
+      "subrequirement_name": "设计文献检索策略",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 4,
+      "requirement_id": "req_001",
+      "subrequirement_name": "检索相关文献",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 5,
+      "requirement_id": "req_001",
+      "subrequirement_name": "追溯关联文献",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 6,
+      "requirement_id": "req_001",
+      "subrequirement_name": "核验文献引用信息",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 7,
+      "requirement_id": "req_001",
+      "subrequirement_name": "分类文献",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 8,
+      "requirement_id": "req_001",
+      "subrequirement_name": "选择核心文献",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 9,
+      "requirement_id": "req_001",
+      "subrequirement_name": "提取文献要点",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 10,
+      "requirement_id": "req_001",
+      "subrequirement_name": "核验文献内容",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 11,
+      "requirement_id": "req_001",
+      "subrequirement_name": "评估文献质量",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 12,
+      "requirement_id": "req_001",
+      "subrequirement_name": "建立证据追溯关系",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 13,
+      "requirement_id": "req_001",
+      "subrequirement_name": "综合外部证据",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 14,
+      "requirement_id": "req_001",
+      "subrequirement_name": "识别研究空白",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "识别研究空白直接处理待解决科学问题，外部证据是判断输入。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 15,
+      "requirement_id": "req_001",
+      "subrequirement_name": "修订研究问题",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 16,
+      "requirement_id": "req_001",
+      "subrequirement_name": "综合候选研究方法",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 17,
+      "requirement_id": "req_001",
+      "subrequirement_name": "评估方法适用性",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 18,
+      "requirement_id": "req_001",
+      "subrequirement_name": "选择研究方法",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 19,
+      "requirement_id": "req_001",
+      "subrequirement_name": "撰写文献调研报告",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "文献调研报告组织外部证据，不因文档形式一律归论文。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 20,
+      "requirement_id": "req_002",
+      "subrequirement_name": "澄清研究意图",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 21,
+      "requirement_id": "req_002",
+      "subrequirement_name": "生成候选研究问题",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 22,
+      "requirement_id": "req_002",
+      "subrequirement_name": "分解研究问题",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 23,
+      "requirement_id": "req_002",
+      "subrequirement_name": "定义核心概念",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 24,
+      "requirement_id": "req_002",
+      "subrequirement_name": "定义研究变量",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 25,
+      "requirement_id": "req_002",
+      "subrequirement_name": "识别问题前提",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 26,
+      "requirement_id": "req_002",
+      "subrequirement_name": "提出研究假设",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 27,
+      "requirement_id": "req_002",
+      "subrequirement_name": "评估研究重要性",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 28,
+      "requirement_id": "req_002",
+      "subrequirement_name": "评估研究创新性",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 29,
+      "requirement_id": "req_002",
+      "subrequirement_name": "评估研究可行性",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 30,
+      "requirement_id": "req_002",
+      "subrequirement_name": "识别研究伦理风险",
+      "previous_source_work_object": "研究问题",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 31,
+      "requirement_id": "req_002",
+      "subrequirement_name": "识别研究约束",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "识别当前科学问题成立及研究边界的约束。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 32,
+      "requirement_id": "req_002",
+      "subrequirement_name": "撰写问题定义文档",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "问题定义文档处理研究问题及其概念、假设和约束。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 33,
+      "requirement_id": "req_003",
+      "subrequirement_name": "识别资源需求项",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 34,
+      "requirement_id": "req_003",
+      "subrequirement_name": "获取资源估算基线",
+      "previous_source_work_object": "外部证据",
+      "work_objects": [
+        "文献与外部证据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 35,
+      "requirement_id": "req_003",
+      "subrequirement_name": "估算数据资源需求和成本",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 36,
+      "requirement_id": "req_003",
+      "subrequirement_name": "估算计算资源需求和成本",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 37,
+      "requirement_id": "req_003",
+      "subrequirement_name": "估算外部服务需求和成本",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 38,
+      "requirement_id": "req_003",
+      "subrequirement_name": "估算人员投入和工时",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "人员工时估算服务研究实施方案与资源安排。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 39,
+      "requirement_id": "req_003",
+      "subrequirement_name": "识别资源瓶颈",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 40,
+      "requirement_id": "req_003",
+      "subrequirement_name": "估算研究周期",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 41,
+      "requirement_id": "req_003",
+      "subrequirement_name": "比较资源方案",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 42,
+      "requirement_id": "req_003",
+      "subrequirement_name": "撰写资源估算报告",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "资源估算报告表达实施资源方案，不等于论文。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 43,
+      "requirement_id": "req_003",
+      "subrequirement_name": "规划研究实施",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 44,
+      "requirement_id": "req_004",
+      "subrequirement_name": "明确实验设计目标",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 45,
+      "requirement_id": "req_004",
+      "subrequirement_name": "定义实验对象与分析单位",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 46,
+      "requirement_id": "req_004",
+      "subrequirement_name": "操作化实验变量",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 47,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计随机化方案",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 48,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计实验对照",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 49,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计消融实验",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 50,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计重复实验",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 51,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计超参数调优协议",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 52,
+      "requirement_id": "req_004",
+      "subrequirement_name": "定义评价指标",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 53,
+      "requirement_id": "req_004",
+      "subrequirement_name": "定义研究验收标准",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 54,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计稳健性实验",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 55,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计敏感性分析",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 56,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计实验流程",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 57,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计实验记录规范",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 58,
+      "requirement_id": "req_004",
+      "subrequirement_name": "设计实验停止规则",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 59,
+      "requirement_id": "req_004",
+      "subrequirement_name": "识别实验有效性风险",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 60,
+      "requirement_id": "req_004",
+      "subrequirement_name": "评估实验设计可行性",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 61,
+      "requirement_id": "req_004",
+      "subrequirement_name": "核验实验设计",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 62,
+      "requirement_id": "req_004",
+      "subrequirement_name": "撰写实验设计文档",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "实验设计文档是设计协议，处理研究方案。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 63,
+      "requirement_id": "req_005",
+      "subrequirement_name": "配置GPU服务器环境",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 64,
+      "requirement_id": "req_005",
+      "subrequirement_name": "安装项目环境依赖",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 65,
+      "requirement_id": "req_005",
+      "subrequirement_name": "修复环境依赖冲突",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 66,
+      "requirement_id": "req_005",
+      "subrequirement_name": "构建运行容器",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 67,
+      "requirement_id": "req_005",
+      "subrequirement_name": "诊断环境依赖冲突",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 68,
+      "requirement_id": "req_005",
+      "subrequirement_name": "核验计算环境",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 69,
+      "requirement_id": "req_006",
+      "subrequirement_name": "获取模型资产",
+      "previous_source_work_object": "研究资产",
+      "work_objects": [
+        "数据",
+        "代码"
+      ],
+      "context_required": true,
+      "reason": "模型权重为数据资产，配置和处理器涉及代码；实际命中对象按具体获取要求确定。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 70,
+      "requirement_id": "req_006",
+      "subrequirement_name": "检索研究数据源",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "文献与外部证据",
+        "数据"
+      ],
+      "context_required": true,
+      "reason": "定位数据源同时涉及外部来源及所需数据，具体对象依据用户目标。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 71,
+      "requirement_id": "req_006",
+      "subrequirement_name": "获取研究数据",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 72,
+      "requirement_id": "req_006",
+      "subrequirement_name": "核验研究数据身份",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 73,
+      "requirement_id": "req_006",
+      "subrequirement_name": "获取计算资源",
+      "previous_source_work_object": "计算环境",
+      "work_objects": [
+        "环境"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 74,
+      "requirement_id": "req_007",
+      "subrequirement_name": "解释数据字段",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 75,
+      "requirement_id": "req_007",
+      "subrequirement_name": "解析数据结构",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 76,
+      "requirement_id": "req_007",
+      "subrequirement_name": "评估数据质量",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 77,
+      "requirement_id": "req_007",
+      "subrequirement_name": "核验数据使用合规性",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 78,
+      "requirement_id": "req_007",
+      "subrequirement_name": "评估统计功效",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 79,
+      "requirement_id": "req_008",
+      "subrequirement_name": "转换数据格式",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 80,
+      "requirement_id": "req_008",
+      "subrequirement_name": "脱敏研究数据",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 81,
+      "requirement_id": "req_008",
+      "subrequirement_name": "处理缺失值",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 82,
+      "requirement_id": "req_008",
+      "subrequirement_name": "处理异常值",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 83,
+      "requirement_id": "req_008",
+      "subrequirement_name": "去除重复样本",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 84,
+      "requirement_id": "req_008",
+      "subrequirement_name": "平衡数据类别",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 85,
+      "requirement_id": "req_008",
+      "subrequirement_name": "增强研究数据",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 86,
+      "requirement_id": "req_008",
+      "subrequirement_name": "划分训练验证测试集",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 87,
+      "requirement_id": "req_009",
+      "subrequirement_name": "提取数据特征",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 88,
+      "requirement_id": "req_009",
+      "subrequirement_name": "比较组间特征差异",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 89,
+      "requirement_id": "req_009",
+      "subrequirement_name": "去除冗余特征",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 90,
+      "requirement_id": "req_009",
+      "subrequirement_name": "筛选有效特征",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 91,
+      "requirement_id": "req_009",
+      "subrequirement_name": "筛选差异特征",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 92,
+      "requirement_id": "req_010",
+      "subrequirement_name": "访问代码仓库",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 93,
+      "requirement_id": "req_010",
+      "subrequirement_name": "解析代码实现",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 94,
+      "requirement_id": "req_010",
+      "subrequirement_name": "提取核心代码",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 95,
+      "requirement_id": "req_010",
+      "subrequirement_name": "核验代码模块",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 96,
+      "requirement_id": "req_010",
+      "subrequirement_name": "核验代码完整性",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 97,
+      "requirement_id": "req_011",
+      "subrequirement_name": "推导研究方法",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 98,
+      "requirement_id": "req_011",
+      "subrequirement_name": "改造研究方法",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 99,
+      "requirement_id": "req_011",
+      "subrequirement_name": "实现实验脚手架",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 100,
+      "requirement_id": "req_011",
+      "subrequirement_name": "设计模型架构",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 101,
+      "requirement_id": "req_011",
+      "subrequirement_name": "设计算法机制",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 102,
+      "requirement_id": "req_011",
+      "subrequirement_name": "设计损失函数",
+      "previous_source_work_object": "研究方法",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 103,
+      "requirement_id": "req_011",
+      "subrequirement_name": "设计代码实现和边界",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 104,
+      "requirement_id": "req_011",
+      "subrequirement_name": "添加实验观测日志",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 105,
+      "requirement_id": "req_012",
+      "subrequirement_name": "实现算法模块",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 106,
+      "requirement_id": "req_012",
+      "subrequirement_name": "实现算法变体",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 107,
+      "requirement_id": "req_012",
+      "subrequirement_name": "检索可复用开源组件",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 108,
+      "requirement_id": "req_012",
+      "subrequirement_name": "集成开源组件",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 109,
+      "requirement_id": "req_012",
+      "subrequirement_name": "核验算法实现等价性",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 110,
+      "requirement_id": "req_013",
+      "subrequirement_name": "规划代码变更",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 111,
+      "requirement_id": "req_013",
+      "subrequirement_name": "管理代码版本变更",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 112,
+      "requirement_id": "req_013",
+      "subrequirement_name": "修改跨模块代码",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 113,
+      "requirement_id": "req_013",
+      "subrequirement_name": "重构代码",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 114,
+      "requirement_id": "req_013",
+      "subrequirement_name": "核验代码修改",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 115,
+      "requirement_id": "req_014",
+      "subrequirement_name": "编写单元测试",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 116,
+      "requirement_id": "req_014",
+      "subrequirement_name": "编写集成测试",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 117,
+      "requirement_id": "req_014",
+      "subrequirement_name": "编写端到端测试",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 118,
+      "requirement_id": "req_014",
+      "subrequirement_name": "执行回归测试",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 119,
+      "requirement_id": "req_015",
+      "subrequirement_name": "选择实验评价指标",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 120,
+      "requirement_id": "req_015",
+      "subrequirement_name": "设计方法评估协议",
+      "previous_source_work_object": "研究方案",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 121,
+      "requirement_id": "req_015",
+      "subrequirement_name": "实现实验评价指标",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 122,
+      "requirement_id": "req_015",
+      "subrequirement_name": "配置对照实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 123,
+      "requirement_id": "req_015",
+      "subrequirement_name": "配置跨模型实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 124,
+      "requirement_id": "req_016",
+      "subrequirement_name": "总结实验配置",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 125,
+      "requirement_id": "req_016",
+      "subrequirement_name": "总结训练代码",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 126,
+      "requirement_id": "req_016",
+      "subrequirement_name": "配置实验运行",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 127,
+      "requirement_id": "req_017",
+      "subrequirement_name": "调度依赖实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 128,
+      "requirement_id": "req_017",
+      "subrequirement_name": "调度分布式实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 129,
+      "requirement_id": "req_017",
+      "subrequirement_name": "执行实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 130,
+      "requirement_id": "req_018",
+      "subrequirement_name": "恢复实验运行",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 131,
+      "requirement_id": "req_018",
+      "subrequirement_name": "组织模型检查点",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 132,
+      "requirement_id": "req_018",
+      "subrequirement_name": "监控实验进度",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 133,
+      "requirement_id": "req_018",
+      "subrequirement_name": "记录实验指标",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 134,
+      "requirement_id": "req_018",
+      "subrequirement_name": "记录实验日志",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 135,
+      "requirement_id": "req_018",
+      "subrequirement_name": "提取实验日志指标",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 136,
+      "requirement_id": "req_018",
+      "subrequirement_name": "组织实验产物",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 137,
+      "requirement_id": "req_019",
+      "subrequirement_name": "描述训练趋势",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 138,
+      "requirement_id": "req_019",
+      "subrequirement_name": "核验实验运行状态",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 139,
+      "requirement_id": "req_019",
+      "subrequirement_name": "比较数据切片性能",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验",
+        "数据"
+      ],
+      "context_required": true,
+      "reason": "比较实验在数据切片上的表现，涉及实验结果与分组数据。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 140,
+      "requirement_id": "req_019",
+      "subrequirement_name": "比较实验设置影响",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "比较实验设置对性能的影响。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 141,
+      "requirement_id": "req_019",
+      "subrequirement_name": "诊断方法失败原因",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 142,
+      "requirement_id": "req_019",
+      "subrequirement_name": "诊断实验异常原因",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 143,
+      "requirement_id": "req_019",
+      "subrequirement_name": "诊断实验性能瓶颈",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 144,
+      "requirement_id": "req_019",
+      "subrequirement_name": "诊断代码缺陷",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 145,
+      "requirement_id": "req_019",
+      "subrequirement_name": "推荐实验停止时机",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 146,
+      "requirement_id": "req_020",
+      "subrequirement_name": "修复代码缺陷",
+      "previous_source_work_object": "代码",
+      "work_objects": [
+        "代码"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 147,
+      "requirement_id": "req_020",
+      "subrequirement_name": "执行实验重试",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 148,
+      "requirement_id": "req_020",
+      "subrequirement_name": "核验实验重试结果",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 149,
+      "requirement_id": "req_020",
+      "subrequirement_name": "执行检查点回滚",
+      "previous_source_work_object": "",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "恢复同一实验检查点及其运行状态。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 150,
+      "requirement_id": "req_020",
+      "subrequirement_name": "评估实验修复方案",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 151,
+      "requirement_id": "req_021",
+      "subrequirement_name": "优化训练配置",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 152,
+      "requirement_id": "req_021",
+      "subrequirement_name": "识别数据污染",
+      "previous_source_work_object": "数据",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 153,
+      "requirement_id": "req_021",
+      "subrequirement_name": "搜索超参数组合",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 154,
+      "requirement_id": "req_021",
+      "subrequirement_name": "执行消融实验",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 155,
+      "requirement_id": "req_021",
+      "subrequirement_name": "识别可调参数与信号",
+      "previous_source_work_object": "",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "根据当前实验状态识别可调参数和反馈信号。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 156,
+      "requirement_id": "req_022",
+      "subrequirement_name": "执行敏感性分析",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 157,
+      "requirement_id": "req_022",
+      "subrequirement_name": "执行鲁棒性测试",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 158,
+      "requirement_id": "req_022",
+      "subrequirement_name": "核验实验可复现性",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 159,
+      "requirement_id": "req_022",
+      "subrequirement_name": "评估跨数据集泛化",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 160,
+      "requirement_id": "req_022",
+      "subrequirement_name": "评估跨领域泛化",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 161,
+      "requirement_id": "req_022",
+      "subrequirement_name": "评估分布外泛化",
+      "previous_source_work_object": "实验",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "结合子需求定义核对后归入对应标准工作对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 162,
+      "requirement_id": "req_023",
+      "subrequirement_name": "计算描述性统计",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "统计运算直接处理结果数据及其分布、差异和不确定性。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 163,
+      "requirement_id": "req_023",
+      "subrequirement_name": "计算统计检验结果",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "统计运算直接处理结果数据及其分布、差异和不确定性。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 164,
+      "requirement_id": "req_023",
+      "subrequirement_name": "计算效应量",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "统计运算直接处理结果数据及其分布、差异和不确定性。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 165,
+      "requirement_id": "req_023",
+      "subrequirement_name": "估算结果不确定性",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "统计运算直接处理结果数据及其分布、差异和不确定性。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 166,
+      "requirement_id": "req_024",
+      "subrequirement_name": "评估算法变体",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "统一协议下评价算法变体的实验表现。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 167,
+      "requirement_id": "req_024",
+      "subrequirement_name": "评估基线模型",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "统一协议下评价基线模型的实验表现。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 168,
+      "requirement_id": "req_024",
+      "subrequirement_name": "比较研究方法",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验",
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "根据评价结果比较方法；区分实验表现比较与方法选择目标。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 169,
+      "requirement_id": "req_025",
+      "subrequirement_name": "解释模型决策机制",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "科学问题",
+        "数据"
+      ],
+      "context_required": true,
+      "reason": "解释模型决策机制，依据预测及分析数据。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 170,
+      "requirement_id": "req_025",
+      "subrequirement_name": "核验研究假设",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "将结果与科学假设及其反证条件对照。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 171,
+      "requirement_id": "req_025",
+      "subrequirement_name": "核验研究结论边界",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "科学问题"
+      ],
+      "context_required": false,
+      "reason": "核验研究结论适用的对象、条件和主张强度。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 172,
+      "requirement_id": "req_025",
+      "subrequirement_name": "报告负面结果",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "报告未达到预期或不支持假设的实验结果。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 173,
+      "requirement_id": "req_025",
+      "subrequirement_name": "识别研究局限",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "科学问题",
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "识别研究结论和研究设计的局限，按具体要求判断对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 174,
+      "requirement_id": "req_025",
+      "subrequirement_name": "界定研究适用范围",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "科学问题",
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "界定结论或方法适用范围，可能分别针对问题结论或方法方案。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 175,
+      "requirement_id": "req_025",
+      "subrequirement_name": "解释模块贡献",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "实验"
+      ],
+      "context_required": false,
+      "reason": "以消融实验结果解释模块贡献。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 176,
+      "requirement_id": "req_026",
+      "subrequirement_name": "生成结果表格",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "将结构化结果转为表格，排版载体不自动决定为论文。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 177,
+      "requirement_id": "req_026",
+      "subrequirement_name": "可视化研究结果",
+      "previous_source_work_object": "研究结果",
+      "work_objects": [
+        "数据"
+      ],
+      "context_required": false,
+      "reason": "将研究数据映射为图形。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 178,
+      "requirement_id": "req_027",
+      "subrequirement_name": "核验论文论证逻辑",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 179,
+      "requirement_id": "req_027",
+      "subrequirement_name": "规划论文大纲",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 180,
+      "requirement_id": "req_028",
+      "subrequirement_name": "撰写相关工作内容",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 181,
+      "requirement_id": "req_028",
+      "subrequirement_name": "撰写参考文献列表",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 182,
+      "requirement_id": "req_028",
+      "subrequirement_name": "格式化文献引用",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 183,
+      "requirement_id": "req_029",
+      "subrequirement_name": "撰写方法章节",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 184,
+      "requirement_id": "req_029",
+      "subrequirement_name": "撰写实验设置章节",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 185,
+      "requirement_id": "req_029",
+      "subrequirement_name": "核验方法描述一致性",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文",
+        "代码"
+      ],
+      "context_required": true,
+      "reason": "明确比较论文方法描述与代码执行流程。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 186,
+      "requirement_id": "req_029",
+      "subrequirement_name": "核验符号实现一致性",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文",
+        "代码"
+      ],
+      "context_required": true,
+      "reason": "明确比较论文符号与代码变量及运算。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 187,
+      "requirement_id": "req_029",
+      "subrequirement_name": "撰写结果分析内容",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 188,
+      "requirement_id": "req_029",
+      "subrequirement_name": "撰写讨论内容",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 189,
+      "requirement_id": "req_030",
+      "subrequirement_name": "生成论文表格",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 190,
+      "requirement_id": "req_030",
+      "subrequirement_name": "注释论文图表",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 191,
+      "requirement_id": "req_031",
+      "subrequirement_name": "修改学术文本段落",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 192,
+      "requirement_id": "req_031",
+      "subrequirement_name": "整合外部证据",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 193,
+      "requirement_id": "req_031",
+      "subrequirement_name": "修改论文篇幅",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 194,
+      "requirement_id": "req_031",
+      "subrequirement_name": "补充事实内容",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 195,
+      "requirement_id": "req_031",
+      "subrequirement_name": "合并论文修改",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 196,
+      "requirement_id": "req_031",
+      "subrequirement_name": "协调论文章节",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 197,
+      "requirement_id": "req_031",
+      "subrequirement_name": "核验论文交叉引用",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 198,
+      "requirement_id": "req_031",
+      "subrequirement_name": "核验结果陈述一致性",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文",
+        "数据"
+      ],
+      "context_required": true,
+      "reason": "核验论文结果陈述与原始数据一致性。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 199,
+      "requirement_id": "req_031",
+      "subrequirement_name": "核验研究证据链",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文",
+        "实验",
+        "代码",
+        "数据"
+      ],
+      "context_required": true,
+      "reason": "追溯论文结论到实验、代码和数据版本；按实际要求选择涉及对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 200,
+      "requirement_id": "req_032",
+      "subrequirement_name": "修订评审相关内容",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 201,
+      "requirement_id": "req_032",
+      "subrequirement_name": "撰写评审回复",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 202,
+      "requirement_id": "req_033",
+      "subrequirement_name": "核验投稿格式",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "该子需求明确处理论文或评审投稿内容。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 203,
+      "requirement_id": "req_033",
+      "subrequirement_name": "整理投稿材料",
+      "previous_source_work_object": "研究资产",
+      "work_objects": [
+        "论文"
+      ],
+      "context_required": false,
+      "reason": "组织投稿主文、附录和声明等论文材料。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 204,
+      "requirement_id": "req_033",
+      "subrequirement_name": "撰写研究复现文档",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "研究方案",
+        "环境",
+        "代码",
+        "实验"
+      ],
+      "context_required": true,
+      "reason": "复现文档组织可执行流程，按实际涉及的准备和运行对象判断。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 205,
+      "requirement_id": "req_033",
+      "subrequirement_name": "撰写研究资产说明",
+      "previous_source_work_object": "科研文档",
+      "work_objects": [
+        "数据",
+        "代码",
+        "实验"
+      ],
+      "context_required": true,
+      "reason": "按具体资产说明对象选择，不能把所有研究资产文档都视为论文。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 206,
+      "requirement_id": "req_033",
+      "subrequirement_name": "打包研究资产",
+      "previous_source_work_object": "研究资产",
+      "work_objects": [
+        "代码",
+        "数据",
+        "环境",
+        "实验"
+      ],
+      "context_required": true,
+      "reason": "发布包可能包含代码、数据、环境及实验配置；按包的实际范围取值。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 207,
+      "requirement_id": "req_033",
+      "subrequirement_name": "发布研究资产",
+      "previous_source_work_object": "研究资产",
+      "work_objects": [
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "发布的具体资产可能不同；依据用户指定资产判断对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 208,
+      "requirement_id": "req_033",
+      "subrequirement_name": "核验研究资产",
+      "previous_source_work_object": "研究资产",
+      "work_objects": [
+        "代码",
+        "数据",
+        "环境",
+        "实验"
+      ],
+      "context_required": true,
+      "reason": "核验发布资产的组成和复现入口，按实际资产类型确定对象。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 209,
+      "requirement_id": "req_034",
+      "subrequirement_name": "协调并行实验",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "实验",
+        "环境"
+      ],
+      "context_required": true,
+      "reason": "并行实验的联合安排涉及研究执行方案、实验与资源环境。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 210,
+      "requirement_id": "req_034",
+      "subrequirement_name": "维护研究任务依赖",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "跨任务前置和阻塞关系属于研究实施方案。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 211,
+      "requirement_id": "req_034",
+      "subrequirement_name": "监控研究任务",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "跨项目任务进展对应研究实施方案的推进状态，不冒充单个实验状态。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 212,
+      "requirement_id": "req_034",
+      "subrequirement_name": "规划研究任务",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案"
+      ],
+      "context_required": true,
+      "reason": "将项目拆为任务、依赖、产物和完成条件，属于研究实施规划。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 213,
+      "requirement_id": "req_035",
+      "subrequirement_name": "恢复研究项目状态",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "环境",
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "项目恢复可能跨对象；必须结合本案例核心需求及实际恢复内容，不能全选。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 214,
+      "requirement_id": "req_035",
+      "subrequirement_name": "维持研究上下文",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "科学问题",
+        "文献与外部证据",
+        "环境",
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "跨任务上下文可作用于任一工作对象，跟随本案例实际目标，不能由该行推导八类全命中。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 215,
+      "requirement_id": "req_036",
+      "subrequirement_name": "请求研究确认",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "科学问题",
+        "文献与外部证据",
+        "环境",
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "确认作用于具体决策对象，按该案例待确认动作选择，不自动继承全部候选。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 216,
+      "requirement_id": "req_036",
+      "subrequirement_name": "核验高风险操作权限",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "文献与外部证据",
+        "环境",
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "权限核验作用于具体操作对象，需结合被核验动作；分类行不足以唯一确定。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    },
+    {
+      "taxonomy_row": 217,
+      "requirement_id": "req_036",
+      "subrequirement_name": "规划高风险操作回滚",
+      "previous_source_work_object": "研究项目",
+      "work_objects": [
+        "研究方案",
+        "环境",
+        "数据",
+        "代码",
+        "实验",
+        "论文"
+      ],
+      "context_required": true,
+      "reason": "回滚规划涉及实施方案与具体待恢复对象，按实际操作范围判断。",
+      "decision_source": "assistant_semantic_review",
+      "human_verified": false
+    }
+  ]
+}

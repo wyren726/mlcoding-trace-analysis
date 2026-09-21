@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-analysis.local/schemas/stage06/v1/evidence.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "stage06-v1-draft"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "$ref": "common.schema.json#/$defs/evidence_scope"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "turn_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "enum": [
+              "user",
+              "assistant",
+              "tool",
+              "system",
+              "error"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "body_provided": {
+            "type": "boolean"
+          },
+          "locator": {
+            "$ref": "common.schema.json#/$defs/source_locator"
+          },
+          "episode_membership": {
+            "enum": [
+              "episode",
+              "prior_context",
+              "post_episode_context"
+            ]
+          }
+        },
+        "required": [
+          "event_id",
+          "turn_id",
+          "role",
+          "content",
+          "body_provided",
+          "locator",
+          "episode_membership"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "source_sha256",
+    "scope",
+    "events"
+  ],
+  "additionalProperties": false
+}
